@@ -25,9 +25,9 @@ public class CutList {
 		int r =1;
 		
 		while((Row = sheet.getRow(r))!=null && (Row.getCell(2).getNumericCellValue()>0 
-		    && Row.getCell(3).getNumericCellValue()> 0 && Row.getCell(4).getNumericCellValue()>0))
+		    && Row.getCell(3).getNumericCellValue()> 0))
 		{
-			if(Row.getCell(5) != null) {
+			if(Row.getCell(5) != null && Row.getCell(4).getNumericCellValue()>0) {
 				List.add(new Wood(
 						Row.getCell(0).getStringCellValue(),
 						Row.getCell(1).getStringCellValue(),
@@ -37,7 +37,7 @@ public class CutList {
 						Row.getCell(5).getStringCellValue()));
 			}
 				
-			else {
+			else if (Row.getCell(4).getNumericCellValue()>0) {
 				List.add(new Wood(
 						Row.getCell(0).getStringCellValue(),
 						Row.getCell(1).getStringCellValue(),
