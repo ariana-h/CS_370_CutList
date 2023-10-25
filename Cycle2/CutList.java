@@ -37,7 +37,7 @@ public class CutList {
 						Row.getCell(5).getStringCellValue()));
 			}
 				
-			else if (Row.getCell(4).getNumericCellValue()>0) {
+			else if(Row.getCell(4).getNumericCellValue()>0) {
 				List.add(new Wood(
 						Row.getCell(0).getStringCellValue(),
 						Row.getCell(1).getStringCellValue(),
