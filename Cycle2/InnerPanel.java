@@ -1,6 +1,6 @@
 import java.awt.Color;
-import java.awt.Desktop.Action;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
@@ -17,8 +17,35 @@ public class InnerPanel {
 	static double kerfThickness;
 	static JPanel innerPanel;
 	static JPanel innerSheetsPanel;
-    static JTextField text;
-    static JPanel filesPanel;
+	static JTextField text;
+
+    public static JPanel Files() {
+    	JPanel filesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    	filesPanel.setBackground(Color.WHITE);
+        JTextArea fileContentTextArea = new JTextArea();
+	    JButton fileButton = new JButton("Open File");
+	    fileButton.addActionListener(e -> {Buttons.openFile(fileContentTextArea);});
+        JLabel fileNameLabel = new JLabel("Selected file: ");
+        
+        filesPanel.add(fileButton);
+        filesPanel.add(fileNameLabel);
+        filesPanel.add(fileContentTextArea);
+		return filesPanel;
+    }
+    
+    public static JPanel Calc() {
+    	JPanel calcPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+    	calcPanel.setBackground(Color.WHITE);
+    	
+    	JButton calcButton = new JButton("Calculate");
+    	//calcButton.addActionListener(e -> {Algorithm.DrawAlg();});
+    	JButton saveButton = new JButton("Save");
+    	
+    	calcPanel.add(calcButton);
+    	calcPanel.add(saveButton);
+    	
+		return calcPanel;    
+    }
 
 	public static JPanel Panels() {
 		innerPanel = new JPanel();

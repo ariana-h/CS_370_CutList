@@ -7,6 +7,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 public class Buttons {
+	static String kerfThicknessText;
+	static DecimalFormat BLT;
+	
 	public static void openFile(JTextArea fileContentTextArea){
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showOpenDialog(fileContentTextArea);
@@ -22,12 +25,11 @@ public class Buttons {
                 e.printStackTrace();
             }
         }
-        
     }
 
     public static void submitAction(){
-        DecimalFormat BLT = new DecimalFormat("0.000");
-        String kerfThicknessText = InnerPanel.text.getText();
+        BLT = new DecimalFormat("0.000");
+        kerfThicknessText = InnerPanel.text.getText();
 
         if (kerfThicknessText.isEmpty()) {
             JOptionPane.showMessageDialog(null, 
@@ -84,5 +86,7 @@ public class Buttons {
             }
         }
     }
+    
+    
  
 }
