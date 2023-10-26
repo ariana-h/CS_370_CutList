@@ -1,13 +1,9 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 public class Buttons {
@@ -28,7 +24,7 @@ public class Buttons {
         }
         
     }
-	
+
     public static void submitAction(){
         DecimalFormat BLT = new DecimalFormat("0.000");
         String kerfThicknessText = InnerPanel.text.getText();
@@ -88,6 +84,5 @@ public class Buttons {
             }
         }
     }
-    
-    
- }
+ 
+}

@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Desktop.Action;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
@@ -8,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 public class InnerPanel {
@@ -15,8 +17,9 @@ public class InnerPanel {
 	static double kerfThickness;
 	static JPanel innerPanel;
 	static JPanel innerSheetsPanel;
-    static JTextArea text;
-	
+    static JTextField text;
+    static JPanel filesPanel;
+
 	public static JPanel Panels() {
 		innerPanel = new JPanel();
         innerPanel = new JPanel(new GridLayout(0,4,5,9));
@@ -40,17 +43,18 @@ public class InnerPanel {
         
         JLabel kerfLabel = new JLabel("Kerf Thickness"); 
         innerKerfPanel.add(kerfLabel);
-        text = new JTextArea(1,10);
-        text.setLineWrap(true);
+        
+        text = new JTextField(10);
         innerKerfPanel.add(text);
+        text.addActionListener(e -> Buttons.submitAction());
+        
         JButton b = new JButton("submit");
         innerKerfPanel.add(b);
-
         b.addActionListener(e -> Buttons.submitAction());
-        
+   
 		return innerKerfPanel;
 	}
-	
+
 	public static JPanel GlobalStats() {
 		JPanel innerGlobalStats = new JPanel();
         innerGlobalStats.setBorder(new LineBorder(Color.BLACK, 1));
