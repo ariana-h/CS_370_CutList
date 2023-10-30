@@ -1,10 +1,9 @@
+import java.awt.event.ItemEvent;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import javax.swing.*;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 
 public class Buttons {
 	static String kerfThicknessText;
@@ -85,6 +84,42 @@ public class Buttons {
                       "Invalid input. Please enter a valid fraction with numbers.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+    
+	public static void Grid(ItemEvent e) {
+        if(e.getStateChange() == ItemEvent.SELECTED) {
+            Algorithm.grid = true;
+        } else {
+        	Algorithm.grid = false;
+        }
+        
+    }
+	
+	public static void WoodGrain(ItemEvent e) {
+        if(e.getStateChange() == ItemEvent.SELECTED) {
+           
+        } else {
+        	
+        }
+        
+    }
+	
+	public static void Label(ItemEvent e) {
+        if(e.getStateChange() == ItemEvent.SELECTED) {
+            Algorithm.Label = true;
+        } else {
+        	Algorithm.Label = false;
+        }
+        
+    }
+	
+	public static void Measure(ItemEvent e) {
+        if(e.getStateChange() == ItemEvent.SELECTED) {
+            Algorithm.Measure = true;
+        } else {
+        	Algorithm.Measure = false;
+        }
+        
     }
     
     

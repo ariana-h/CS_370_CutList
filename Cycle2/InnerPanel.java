@@ -1,16 +1,7 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.border.*;
 
 public class InnerPanel {
 	static JLabel kerfThicknessLabel;
@@ -64,11 +55,11 @@ public class InnerPanel {
 	}
 	
 	public static JPanel Kerf() {
-        JPanel innerKerfPanel = new JPanel();
+        JPanel innerKerfPanel = new JPanel(new GridLayout (0,3,10,1));
         innerKerfPanel.setBorder(new LineBorder(Color.BLACK, 1));
         innerKerfPanel.setBackground(Color.LIGHT_GRAY);
         
-        JLabel kerfLabel = new JLabel("Kerf Thickness"); 
+        JLabel kerfLabel = new JLabel("   Kerf Thickness"); 
         innerKerfPanel.add(kerfLabel);
         
         text = new JTextField(10);
@@ -78,9 +69,60 @@ public class InnerPanel {
         JButton b = new JButton("submit");
         innerKerfPanel.add(b);
         b.addActionListener(e -> Buttons.submitAction());
+        
+        innerKerfPanel.add(Checkbox("Grid"));
+        innerKerfPanel.add(new JLabel());		//dummy space
+        innerKerfPanel.add(new JLabel());
+        innerKerfPanel.add(Checkbox("Wood Grain"));
+        innerKerfPanel.add(new JLabel());
+        innerKerfPanel.add(new JLabel());
+        innerKerfPanel.add(Checkbox("Labels"));
+        innerKerfPanel.add(new JLabel());
+        innerKerfPanel.add(new JLabel());
+        innerKerfPanel.add(Checkbox("Measurements"));
+
    
 		return innerKerfPanel;
 	}
+	
+	public static JPanel Checkbox(String s)
+	{
+		JPanel CB = new JPanel (new FlowLayout (FlowLayout.LEFT));
+		CB.setBackground(Color.LIGHT_GRAY);
+		 JCheckBox c1 = new JCheckBox(s);
+	        c1.setBackground(Color.LIGHT_GRAY);
+	        c1.setMnemonic(s.charAt(0));
+	        
+	        c1.addItemListener(new ItemListener() {
+	            @Override
+	            public void itemStateChanged(ItemEvent e)
+	            {
+	               if(s.compareTo("Grid")==0)
+	            	   Buttons.Grid(e);
+	               if(s.compareTo("Wood Grain")==0)
+	               {
+	            	   Buttons.WoodGrain(e);
+	               }
+	               if(s.compareTo("Labels")==0)
+	               {
+	            	   Buttons.Label(e);
+	               }
+	               if(s.compareTo("Measurements")==0)
+	               {
+	            	   Buttons.Measure(e);
+	               }
+	            }});
+	        
+	        
+	        CB.add(c1 , BorderLayout.WEST);
+		
+		
+		return CB;
+	}
+	
+	
+	
+	
 
 	public static JPanel GlobalStats() {
 		JPanel innerGlobalStats = new JPanel();

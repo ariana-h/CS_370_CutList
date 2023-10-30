@@ -1,7 +1,6 @@
-import java.awt.Dimension;
-
-import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.*;
 
 public class Stats {
 	public static JPanel Global() {

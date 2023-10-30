@@ -1,30 +1,29 @@
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.*;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 public class Algorithm {
 	static ArrayList<Wood> Boards  = new ArrayList<Wood>();
 	static ArrayList<Wood> Pieces  = new ArrayList<Wood>();
+	static boolean grid , Label , Measure;
 	
 	public static void DrawAlg(){
 		ArrayList<Wood> hold = new ArrayList<Wood>();
-		//hold = Javabin.alg(List);
 		MiddlePanel.panelMiddle.removeAll();
 		JPanel ty = new JPanel(){
  		   @Override
  		   public void paint (Graphics g){
+ 			  repaint();
  			  g.setColor(Color.LIGHT_GRAY);
  			  g.fillRect(0,0,this.getWidth(),this.getHeight());
+ 			  
+ 			  
+ 			  if(grid)
+ 			  Grid(g);
+ 			  
+ 			  
  			  Canvas(g);
  		   }
  	   };
@@ -32,15 +31,20 @@ public class Algorithm {
  	  MiddlePanel.panelMiddle.add(ty);
 	}
 	
+	public static void Grid(Graphics g)
+	{
+		g.setColor(Color.BLACK);
+		 for(int x = 1; x<(int)(MiddlePanel.panelMiddle.getWidth()/InnerPanel.kerfThickness)+1 ; x++){
+			 g.drawLine(0,(int)(InnerPanel.kerfThickness*x),MiddlePanel.panelMiddle.getWidth(),(int)(InnerPanel.kerfThickness*x));
+			 g.drawLine((int)(InnerPanel.kerfThickness*x),0,(int)(InnerPanel.kerfThickness*x),MiddlePanel.panelMiddle.getHeight());
+		 }	
+	}
+	
 	public static void Canvas(Graphics g){
 		 Graphics2D g2d = (Graphics2D) g;
 		 
 		 g2d.setStroke(new BasicStroke(1)); 
-		 g.setColor(Color.BLACK);
-		 for(int x = 1; x<(int)(MiddlePanel.panelMiddle.getWidth()/InnerPanel.kerfThickness)+1 ; x++){
-			 g.drawLine(0,(int)(InnerPanel.kerfThickness*x),MiddlePanel.panelMiddle.getWidth(),(int)(InnerPanel.kerfThickness*x));
-			 g.drawLine((int)(InnerPanel.kerfThickness*x),0,(int)(InnerPanel.kerfThickness*x),MiddlePanel.panelMiddle.getHeight());
-		 }
+		 
 		 
 		 
 		 
