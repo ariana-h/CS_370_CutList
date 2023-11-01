@@ -1,12 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.awt.Color;
-import java.awt.Graphics;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 
 public class Javabin {
@@ -20,7 +12,7 @@ public class Javabin {
 	        static int i, c; 
 	        static double cw, cl, bw, bl;
 	        
-	   public  static ArrayList<CoordMaker> alg (ArrayList<Wood> List) {     
+	   public static ArrayList<CoordMaker> alg (ArrayList<Wood> List) {     
 
 		  inhere = List; //populates a list for the algorithm
 		  
@@ -37,21 +29,22 @@ public class Javabin {
 	        	if(inhere.get(i).GetWoodtype().contains("Board"))
 	        			{
 	        		
-		        	bl= inhere.get(i).GetLength();
+		        	bl= inhere.get(i).GetHeight();
 		        	bw= inhere.get(i).GetWidth();
 		        	for(int z= 0; z< inhere.get(i).GetAmount(); z++) {
-		        	Wood run = new Wood("Sheet " +d, inhere.get(i).GetGrain(), bl,  bw, inhere.get(i).GetAmount());
+		        	Wood run = new Wood("Sheet " + d, inhere.get(i).GetGrain(), bl,  bw, inhere.get(i).GetAmount());
 	        		board.add(run); //populates the board list
-		        	}
 	        		d++;
+		        	}
 	        	}
 	        	else {
-		        	cl = inhere.get(i).GetLength();
+		        	cl = inhere.get(i).GetHeight();
 		        	cw = inhere.get(i).GetWidth();
-		        	System.out.println();
+		        	
 		        	Wood run = new Wood(inhere.get(i).GetWoodtype(), inhere.get(i).GetGrain(), cl,  cw, inhere.get(i).GetAmount());
-		        	for(int t= 1; t > run.GetAmount(); t++) {
+		        	for(int t= 0; t < run.GetAmount(); t++) {
 		        		pieces.add(run);
+		        		
 		        	}
 	        	}
 	        }
@@ -60,58 +53,99 @@ public class Javabin {
 	        
 	        int count = 0; 
 	        int plank = 0;
-	        int boardArea, pieceArea, remaing,x =0 ,y = 0;
+	        int boardArea, pieceArea= 0, remaing,x =0 ,y = 0, temp= 0;
 	        int totArea = 0;
 	        boolean isSpace = true;
 	        boolean canplace = false;
+	        boolean firsttime = true;
 	         // runs sorting
 	        
 	        do { // will run through all pieces
+	        	
 	        	do { //will run through each stock sheet
-	        		boardArea = (int)board.get(plank).GetLength() * (int)board.get(plank).GetWidth();
-	        			for (i=0; i< colist.size(); i++) { // checks to see the pieces within current board 
-	        				if(colist.get(i).getBase() == board.get(plank).GetWoodtype() ) {
+	        		
+	        		boardArea = (int)board.get(plank).GetHeight() * (int)board.get(plank).GetWidth();
+	        		if(colist.size() > 0) 
+	        		{
+	        			for (i=0; i< colist.size(); i++) 
+	        			{
+	        				// checks to see the pieces within current board 
+	        				
+	        				if(colist.get(i).getBase() == board.get(plank).GetWoodtype() ) 
+	        				{
 	        					pieceArea = (int)colist.get(i).getXsize() * (int)colist.get(i).getYsize();
 	        					totArea= totArea + pieceArea;
+	        				
 	        				}
-	        				pieceArea= (int)pieces.get(i).GetLength() * (int)pieces.get(i).GetWidth(); 
+	        			}
+	        			
+	        		}
+	        				
 	        				remaing = boardArea - totArea;
+	        				
+	        				
 	        				if( remaing >0 && pieceArea <= remaing) { //sees if there is space left on board and if the current piece will fit
-	        					ArrayList<CoordMaker> placement = new ArrayList<CoordMaker>();
-	        					if(placement.size() ==0 ) {
+	        					
+	        					ArrayList<CoordMaker> placement = new ArrayList<CoordMaker>(); 
+	        					
+	        					for (i=0; i< colist.size(); i++) 
+	    	        			{
+	    	        				// checks to see the pieces within current board 
+	    	        				
+	    	        				if(colist.get(i).getBase() == board.get(plank).GetWoodtype() ) 
+	    	        				{
+	    	        					firsttime = false;
+	    	        				
+	    	        				}
+	    	        			}
+	        					
+	        					if(firsttime == true ) 
+	        					{ //if there has been no pieces placed make the first one 0,0
 	        						x= 0;
 	        						y=0;
 	        						canplace = true;
-	        						CoordMaker cut = new CoordMaker(pieces.get(count).GetWoodtype(), ((ArrayList<Wood>) board).get(plank).GetWoodtype(), x, y, (int) pieces.get(count).GetLength(),(int) pieces.get(count).GetWidth() );
+	        						CoordMaker cut = new CoordMaker(pieces.get(count).GetWoodtype(), ((ArrayList<Wood>) board).get(plank).GetWoodtype(), x, y, (int) pieces.get(count).GetHeight(),(int) pieces.get(count).GetWidth() );
         							colist.add(cut);
+        							placement.add(cut);
+        							
 	        					}
-	        					if (colist.size() > 0) {
-	        					for (int e =0; e< colist.size(); e++) {
-	        						if(colist.get(i).getBase() == board.get(plank).GetWoodtype()  ) {
-	        							placement.add(colist.get(e));
+	        					else { //after the first piece we now move to the actual algorithm
+	        						
+	        						for (int a=0; a < colist.size(); a++) {
+	        							if(colist.get(a).getBase() == board.get(plank).GetWoodtype() ) {
+	        								placement.add(colist.get(a));
+	        							}
 	        						}
-	        					}
 	        					
-	        					for (int q=0; q < placement.size(); q ++) {
-	        						for(int h =0; h < board.get(plank).GetWidth(); h++) {
-	        							if(x < placement.get(q).getXsize() + placement.get(q).getX() && y <placement.get(q).getY()+ placement.get(q).getYsize()) {
-	        								x= placement.get(q).getXsize() + placement.get(q).getX();
+	        					for (int q=0; q < placement.size(); q ++) { // checks if the  unplaced piece is colliding with any already placed piece
+	        						
+	        						for(int h =0; h < board.get(plank).GetHeight(); h++) {
+	        							
+	        							if(x < placement.get(q).getXsize() + placement.get(q).getX() && y <= placement.get(q).getY()+ placement.get(q).getYsize()) {
+	        								x= placement.get(q).getXsize() + placement.get(q).getX(); // if collisions move to the end of the placed piece
 	        								canplace = false;
-	        								if (pieces.get(count).GetLength() + x > board.get(plank).GetLength()) {
+	        								h = h-1;
+	        								System.out.println(colist.get(temp).getX() + " times here: " + temp);
+	        								if (pieces.get(count).GetHeight() + x > board.get(plank).GetHeight()) {
+	        								h = h+1;
 	        								y=h;
 	        								x=0;
 	        								
 	        							}
 	        								
 	        							}
-	        							else {
+	        							else if(x + pieces.get(count).GetHeight()<= board.get(plank).GetHeight()) {// no collision = place here
+	        								
 	        								canplace = true;
+	        								
+	        								temp ++;
 	        								break;
 	        							}
 	        						}
 	        						if (canplace == true){
-	        							CoordMaker cut = new CoordMaker(pieces.get(count).GetWoodtype(), ((ArrayList<Wood>) board).get(plank).GetWoodtype(), x, y, (int) pieces.get(count).GetLength(),(int) pieces.get(count).GetWidth() );
+	        							CoordMaker cut = new CoordMaker(pieces.get(count).GetWoodtype(), ((ArrayList<Wood>) board).get(plank).GetWoodtype(), x, y, (int) pieces.get(count).GetHeight(),(int) pieces.get(count).GetWidth() );
 	        							colist.add(cut);
+	        							placement.add(colist.get(count));
 	        							break;
 	        						}
 	        					}
@@ -121,16 +155,18 @@ public class Javabin {
 	        				}
 	        				
 	        			}
-	        			}	
+	        				
 	        			
-	        		if (canplace = true) {
-	        						
+	        		if (canplace = true) 
+	        		 {			
 	        			break;
-	        					}
+	        		 }
 	        		if(isSpace == false) {
 	        			plank++;
 	        		}
+	        		;
 	        	}while(plank < board.size());
+	        	System.out.println(colist.size());
 	        	count++;
 	        	plank=0;
 	        	totArea=0;
@@ -139,7 +175,10 @@ public class Javabin {
 	        } while(count < pieces.size());
 	      
 	       
-	      
+	      for(int p =0; p< colist.size(); p++) {
+	    	  System.out.println(colist.get(p).getBase() + ", " + colist.get(p).getX() + ", " + colist.get(p).getY());
+	    	  
+	      }
 	            
 	        return colist;
 	        
@@ -151,7 +190,11 @@ public class Javabin {
 	    	   
 	    	   return board;
 	       }
-	        	
+	      
+	    	   
+	    	   
 }
+
+
 
 
