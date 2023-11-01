@@ -55,12 +55,13 @@ public class InnerPanel {
 	}
 	
 	public static JPanel Kerf() {
-        JPanel innerKerfPanel = new JPanel(new GridLayout (0,3,3,0));
+        JPanel innerKerfPanel = new JPanel();
+        innerKerfPanel.setLayout(new GridLayout(0,3,5,0));
         innerKerfPanel.setBorder(new LineBorder(Color.BLACK, 1));
         innerKerfPanel.setBackground(Color.LIGHT_GRAY);
-        innerKerfPanel.setPreferredSize(new Dimension(300, 200));
+        //innerKerfPanel.setPreferredSize(new Dimension(350, 200));
         
-        JLabel kerfLabel = new JLabel("Kerf Thickness"); 
+        JLabel kerfLabel = new JLabel("   Kerf Thickness"); 
         innerKerfPanel.add(kerfLabel);
         
         text = new JTextField(10);
@@ -80,7 +81,7 @@ public class InnerPanel {
         innerKerfPanel.add(Checkbox("Labels"));
         innerKerfPanel.add(new JLabel());
         innerKerfPanel.add(new JLabel());
-        innerKerfPanel.add(Checkbox("Measurements"));
+        innerKerfPanel.add(Checkbox("Dimensions"));
 
    
 		return innerKerfPanel;
@@ -88,9 +89,11 @@ public class InnerPanel {
 	
 	public static JPanel Checkbox(String s)
 	{
+		//Font f = new Font("serrif",0,10);
 		JPanel CB = new JPanel (new FlowLayout (FlowLayout.LEFT));
 		CB.setBackground(Color.LIGHT_GRAY);
 		 JCheckBox c1 = new JCheckBox(s);
+		 	//c1.setFont(f);
 	        c1.setBackground(Color.LIGHT_GRAY);
 	        c1.setMnemonic(s.charAt(0));
 	        
