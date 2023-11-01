@@ -29,7 +29,7 @@ public class InnerPanel {
     	calcPanel.setBackground(Color.WHITE);
     	
     	JButton calcButton = new JButton("Calculate");
-    	//calcButton.addActionListener(e -> {Algorithm.DrawAlg();});
+    	calcButton.addActionListener(e -> {Buttons.Draw();});
     	JButton saveButton = new JButton("Save");
     	
     	calcPanel.add(calcButton);
@@ -55,11 +55,12 @@ public class InnerPanel {
 	}
 	
 	public static JPanel Kerf() {
-        JPanel innerKerfPanel = new JPanel(new GridLayout (0,3,10,1));
+        JPanel innerKerfPanel = new JPanel(new GridLayout (0,3,3,0));
         innerKerfPanel.setBorder(new LineBorder(Color.BLACK, 1));
         innerKerfPanel.setBackground(Color.LIGHT_GRAY);
+        innerKerfPanel.setPreferredSize(new Dimension(300, 200));
         
-        JLabel kerfLabel = new JLabel("   Kerf Thickness"); 
+        JLabel kerfLabel = new JLabel("Kerf Thickness"); 
         innerKerfPanel.add(kerfLabel);
         
         text = new JTextField(10);

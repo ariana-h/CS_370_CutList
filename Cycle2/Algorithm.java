@@ -9,26 +9,27 @@ public class Algorithm {
 	static ArrayList<Wood> Pieces  = new ArrayList<Wood>();
 	static boolean grid , Label , Measure;
 	
+	static JPanel ty = new JPanel();
+	
 	public static void DrawAlg(){
-		ArrayList<Wood> hold = new ArrayList<Wood>();
+
 		MiddlePanel.panelMiddle.removeAll();
-		JPanel ty = new JPanel(){
+		 ty = new JPanel(){
  		   @Override
  		   public void paint (Graphics g){
- 			  repaint();
+ 			   
  			  g.setColor(Color.LIGHT_GRAY);
  			  g.fillRect(0,0,this.getWidth(),this.getHeight());
  			  
- 			  
  			  if(grid)
+ 			  {
  			  Grid(g);
- 			  
- 			  
+ 			  }
  			  Canvas(g);
  		   }
  	   };
-
- 	  MiddlePanel.panelMiddle.add(ty);
+ 	   
+ 	  MiddlePanel.panelMiddle.add(ty);	
 	}
 	
 	public static void Grid(Graphics g)
