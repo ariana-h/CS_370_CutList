@@ -1,10 +1,7 @@
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.text.DecimalFormat;
+import javax.swing.*;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 
 public class CreateGUI extends JFrame{
 	DecimalFormat BLT = new DecimalFormat("0.000");

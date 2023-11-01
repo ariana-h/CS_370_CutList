@@ -1,8 +1,6 @@
-import java.awt.Color;
-
-import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.*;
 
 public class PanelGrid {
 	
@@ -28,8 +26,9 @@ public class PanelGrid {
 	public static JPanel KerfPanel() {
 	    JPanel kerfPanel = new JPanel();
 	    kerfPanel.setBorder(new TitledBorder(null, "Tools", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		
         kerfPanel.add(InnerPanel.Kerf());
+
+
 	    
 	    return kerfPanel;
 

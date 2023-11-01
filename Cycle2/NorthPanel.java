@@ -1,10 +1,6 @@
-import java.awt.Color;
-import java.awt.GridLayout;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.*;
 
 public class NorthPanel {
 	static JPanel panelNorth;

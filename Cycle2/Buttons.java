@@ -1,14 +1,14 @@
+import java.awt.event.ItemEvent;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import javax.swing.*;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 
 public class Buttons {
 	static String kerfThicknessText;
 	static DecimalFormat BLT;
+	private static boolean FileRead = false , Kerf = false;
 	
 	public static void openFile(JTextArea fileContentTextArea){
         JFileChooser fileChooser = new JFileChooser();
@@ -20,7 +20,7 @@ public class Buttons {
 
             try {
             	Algorithm.CutListAlgorithm(selectedFile.getAbsolutePath());
-
+            	FileRead = true;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -49,7 +49,7 @@ public class Buttons {
             	InnerPanel.kerfThickness = Double.parseDouble(kerfThicknessText);
             	//Displays the blade thickness on the GUI
            		InnerPanel.kerfThicknessLabel.setText("Kerf Thickness: " + InnerPanel.kerfThickness);
-            	Algorithm.DrawAlg();    
+            	Kerf = true;  
             } catch (NumberFormatException ex) {
            		//Handle invalid input (not a double or integer)
            		JOptionPane.showMessageDialog(null, 
@@ -76,7 +76,7 @@ public class Buttons {
             		InnerPanel.kerfThickness = num1/num2;
             		InnerPanel.kerfThickness = Double.parseDouble(BLT.format(InnerPanel.kerfThickness));
             		InnerPanel.kerfThicknessLabel.setText("kerf Thickness: " + kerfThicknessText);
-            		Algorithm.DrawAlg();
+                	Kerf = true;  
             	}
                         
             } catch (NumberFormatException ex){
@@ -85,6 +85,58 @@ public class Buttons {
                       "Invalid input. Please enter a valid fraction with numbers.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+    
+    public static void Draw()
+    {
+    	if(FileRead && Kerf)
+    	{
+    	Algorithm.DrawAlg();
+    	Algorithm.ty.revalidate();
+    	}
+    	
+    	else
+    	{
+    		JOptionPane.showMessageDialog(null, 
+                    "Please open a valid file and submit a kerf thickness before running", "No File Detected", JOptionPane.ERROR_MESSAGE);
+    	}
+    	
+    }
+    
+	public static void Grid(ItemEvent e) {
+        if(e.getStateChange() == ItemEvent.SELECTED) {
+            Algorithm.grid = true;
+        } else {
+        	Algorithm.grid = false;
+        }
+        
+    }
+	
+	public static void WoodGrain(ItemEvent e) {
+        if(e.getStateChange() == ItemEvent.SELECTED) {
+           
+        } else {
+        	
+        }
+        
+    }
+	
+	public static void Label(ItemEvent e) {
+        if(e.getStateChange() == ItemEvent.SELECTED) {
+            Algorithm.Label = true;
+        } else {
+        	Algorithm.Label = false;
+        }
+        
+    }
+	
+	public static void Measure(ItemEvent e) {
+        if(e.getStateChange() == ItemEvent.SELECTED) {
+            Algorithm.Measure = true;
+        } else {
+        	Algorithm.Measure = false;
+        }
+        
     }
     
     

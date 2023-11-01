@@ -1,9 +1,6 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
+import java.awt.*;
+import javax.swing.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.JRootPane;
 
 public class MainContainer {
 	static Container mainContainer;

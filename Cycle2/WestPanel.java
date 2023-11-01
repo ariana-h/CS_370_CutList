@@ -1,8 +1,6 @@
-import java.awt.Color;
-
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.*;
 
 public class WestPanel {
 		static JPanel panelWest = new JPanel();
