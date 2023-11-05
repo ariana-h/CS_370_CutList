@@ -1,7 +1,20 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 public class InnerPanel {
 	static JLabel kerfThicknessLabel;
@@ -14,15 +27,23 @@ public class InnerPanel {
     	JPanel filesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     	filesPanel.setBackground(Color.WHITE);
         JTextArea fileContentTextArea = new JTextArea();
-	    JButton fileButton = new JButton("Open File");
-	    fileButton.addActionListener(e -> {Buttons.openFile(fileContentTextArea);});
-        JLabel fileNameLabel = new JLabel("Selected file: ");
-        
+	    JButton fileButton = new JButton("File");  
+	    Buttons.addFileButton(fileButton, fileContentTextArea);
+
+        fileButton.setBounds(10, 10, 100, 30);
         filesPanel.add(fileButton);
+        filesPanel.setSize(200, 100);
+        
+        JLabel fileNameLabel = new JLabel("Selected file: ");
+
         filesPanel.add(fileNameLabel);
         filesPanel.add(fileContentTextArea);
+
 		return filesPanel;
     }
+    
+    
+    
     
     public static JPanel Calc() {
     	JPanel calcPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -30,7 +51,9 @@ public class InnerPanel {
     	
     	JButton calcButton = new JButton("Calculate");
     	calcButton.addActionListener(e -> {Buttons.Draw();});
+    	
     	JButton saveButton = new JButton("Save");
+    	saveButton.addActionListener(e -> {Buttons.captureScreen(CreateGUI.frame);});
     	
     	calcPanel.add(calcButton);
     	calcPanel.add(saveButton);
@@ -97,7 +120,7 @@ public class InnerPanel {
 	        c1.setBackground(Color.LIGHT_GRAY);
 	        c1.setMnemonic(s.charAt(0));
 	        
-	        c1.addItemListener(new ItemListener() {
+	        c1.addItemListener((ItemListener) new ItemListener() {
 	            @Override
 	            public void itemStateChanged(ItemEvent e)
 	            {
@@ -123,10 +146,6 @@ public class InnerPanel {
 		
 		return CB;
 	}
-	
-	
-	
-	
 
 	public static JPanel GlobalStats() {
 		JPanel innerGlobalStats = new JPanel();
@@ -192,6 +211,5 @@ public class InnerPanel {
         label.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
         panel.add(label);
     }
-	
 	
 }
