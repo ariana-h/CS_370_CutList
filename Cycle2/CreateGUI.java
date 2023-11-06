@@ -1,7 +1,10 @@
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.text.DecimalFormat;
-import javax.swing.*;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 public class CreateGUI extends JFrame{
 	DecimalFormat BLT = new DecimalFormat("0.000");
@@ -18,6 +21,8 @@ public class CreateGUI extends JFrame{
         MainContainer.mainContainer.add(WestPanel.Create(), BorderLayout.WEST);
         //east panel        
         MainContainer.mainContainer.add(EastPanel.Create(), BorderLayout.NORTH);
+        //Middle panel
+        MainContainer.mainContainer.add(MiddlePanel.Create());
         
         frame.add(ScrollPanes.JSPW(),BorderLayout.WEST);
         frame.add(EastPanel.panelEast, BorderLayout.EAST);
@@ -37,6 +42,7 @@ public class CreateGUI extends JFrame{
         ImageIcon icon = new ImageIcon("cutlist_icon.png");
         frame.setIconImage(icon.getImage());
 	}
+    
     
     
 	public static void main(String[] args){
