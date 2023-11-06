@@ -40,9 +40,10 @@ public class Buttons {
 	 }
 	
 	public static void openFile(JTextArea fileContentTextArea){
-		 InnerPanel.innerPanel.removeAll(); 
-		 InnerPanel.innerSheetsPanel.removeAll();
+		InnerPanel.innerPanel.removeAll(); 
+		InnerPanel.innerSheetsPanel.removeAll();
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Open New File");
         int result = fileChooser.showOpenDialog(fileContentTextArea);
 
         if (result == JFileChooser.APPROVE_OPTION) {
@@ -51,6 +52,7 @@ public class Buttons {
 
             try {
             	Algorithm.CutListAlgorithm(selectedFile.getAbsolutePath());
+            	FileRead = true;
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -59,8 +61,8 @@ public class Buttons {
     }
 	
 	public static void AddFile(JTextArea fileContentTextArea) {
-		//clear all
 		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Add a File");
 		int result = fileChooser.showOpenDialog(fileContentTextArea);
 
         if (result == JFileChooser.APPROVE_OPTION) {
@@ -69,6 +71,7 @@ public class Buttons {
            
             try {
             	Algorithm.CutListAlgorithm(selectedFile.getAbsolutePath());
+            	FileRead = true;
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -77,63 +80,63 @@ public class Buttons {
 	}
 
 	    public static void submitAction(){
-	        BLT = new DecimalFormat("0.000");
-	        kerfThicknessText = InnerPanel.text.getText();
+	    	 BLT = new DecimalFormat("0.000");
+	         kerfThicknessText = InnerPanel.text.getText();
 
-	        if (kerfThicknessText.isEmpty()) {
-	            JOptionPane.showMessageDialog(null, 
-	            	"Please enter a value.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
-	            return;
-	        }
-	        int numSlash = 0;
-	        for(int i = 0 ; i < kerfThicknessText.length() ; i++ ) {
-	            char c = kerfThicknessText.charAt(i);
-	            if(c==47)
-	            	numSlash++;
-	        }
-	            
-	        //Validates if the input is a valid double or integer
-	        if(numSlash == 0) {
-	            try {
-	            	InnerPanel.kerfThickness = Double.parseDouble(kerfThicknessText);
-	            	//Displays the blade thickness on the GUI
-	           		InnerPanel.kerfThicknessLabel.setText("Kerf Thickness: " + InnerPanel.kerfThickness);
-	            	Kerf = true;  
-	            } catch (NumberFormatException ex) {
-	           		//Handle invalid input (not a double or integer)
-	           		JOptionPane.showMessageDialog(null, 
-	           				"Invalid input. Please enter a valid number.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
-	           	}
-	        }
-	        if(numSlash > 1 || kerfThicknessText.charAt(0)==47 || kerfThicknessText.charAt(kerfThicknessText.length()-1)==47) {
-	          	JOptionPane.showMessageDialog(null, 
-	           		"Invalid input. Please enter a valid fraction.", "Invalid Input", JOptionPane.ERROR_MESSAGE);	
-	        }
-	            
-	        else if(numSlash == 1){
-	           	String[] numbers = new String[2];
-	           	numbers = kerfThicknessText.split("/");
-	           	try {
-	           		double num1 =Double.parseDouble(numbers[0]);
-	          		double num2 =Double.parseDouble(numbers[1]);
-	           			
-	           		if(num2 == 0){ 
-	           			JOptionPane.showMessageDialog(null, 
-	           				"Invalid input. Cannot divide by 0.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+	         if (kerfThicknessText.isEmpty()) {
+	             JOptionPane.showMessageDialog(null, 
+	             	"Please enter a value.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+	             return;
+	         }
+	         int numSlash = 0;
+	         for(int i = 0 ; i < kerfThicknessText.length() ; i++ ) {
+	             char c = kerfThicknessText.charAt(i);
+	             if(c==47)
+	             	numSlash++;
+	         }
+	             
+	         //Validates if the input is a valid double or integer
+	         if(numSlash == 0) {
+	             try {
+	             	InnerPanel.kerfThickness = Double.parseDouble(kerfThicknessText);
+	             	//Displays the blade thickness on the GUI
+	            		InnerPanel.kerfThicknessLabel.setText("Kerf Thickness: " + InnerPanel.kerfThickness);
+	             	Kerf = true;  
+	             } catch (NumberFormatException ex) {
+	            		//Handle invalid input (not a double or integer)
+	            		JOptionPane.showMessageDialog(null, 
+	            				"Invalid input. Please enter a valid number.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
 	            	}
-	            	else{
-	            		InnerPanel.kerfThickness = num1/num2;
-	            		InnerPanel.kerfThickness = Double.parseDouble(BLT.format(InnerPanel.kerfThickness));
-	            		InnerPanel.kerfThicknessLabel.setText("kerf Thickness: " + kerfThicknessText);
-	                	Kerf = true;  
-	            	}
-	                        
-	            } catch (NumberFormatException ex){
-	                //Handle invalid input (not a double or integer)
-	            	JOptionPane.showMessageDialog(null, 
-	                      "Invalid input. Please enter a valid fraction with numbers.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
-	            }
-	        }
+	         }
+	         if(numSlash > 1 || kerfThicknessText.charAt(0)==47 || kerfThicknessText.charAt(kerfThicknessText.length()-1)==47) {
+	           	JOptionPane.showMessageDialog(null, 
+	            		"Invalid input. Please enter a valid fraction.", "Invalid Input", JOptionPane.ERROR_MESSAGE);	
+	         }
+	             
+	         else if(numSlash == 1){
+	            	String[] numbers = new String[2];
+	            	numbers = kerfThicknessText.split("/");
+	            	try {
+	            		double num1 =Double.parseDouble(numbers[0]);
+	           		double num2 =Double.parseDouble(numbers[1]);
+	            			
+	            		if(num2 == 0){ 
+	            			JOptionPane.showMessageDialog(null, 
+	            				"Invalid input. Cannot divide by 0.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+	             	}
+	             	else{
+	             		InnerPanel.kerfThickness = num1/num2;
+	             		InnerPanel.kerfThickness = Double.parseDouble(BLT.format(InnerPanel.kerfThickness));
+	             		InnerPanel.kerfThicknessLabel.setText("kerf Thickness: " + kerfThicknessText);
+	                 	Kerf = true;  
+	             	}
+	                         
+	             } catch (NumberFormatException ex){
+	                 //Handle invalid input (not a double or integer)
+	             	JOptionPane.showMessageDialog(null, 
+	                       "Invalid input. Please enter a valid fraction with numbers.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+	             }
+	         }
 	    }
 	    
 	    public static void Draw()
@@ -170,16 +173,16 @@ public class Buttons {
 	        
 	    }
 		
-		public static void captureScreen(JFrame frame) {
+		public static void captureScreen(JFrame frame, JTextArea fileContentTextArea) {
 			try {
 		        BufferedImage screenshot = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		        frame.paint(screenshot.getGraphics());
 
 		        JFileChooser fileChooser = new JFileChooser();
 		        fileChooser.setDialogTitle("Save Screenshot");
-		        int userSelection = fileChooser.showSaveDialog(null);
+		        int result = fileChooser.showOpenDialog(fileContentTextArea);
 
-		        if (userSelection == JFileChooser.APPROVE_OPTION) {
+		        if (result == JFileChooser.APPROVE_OPTION) {
 		            File fileToSave = fileChooser.getSelectedFile();
 		            ImageIO.write(screenshot, "png", fileToSave);
 		            JOptionPane.showMessageDialog(null, "Screenshot saved successfully!");
