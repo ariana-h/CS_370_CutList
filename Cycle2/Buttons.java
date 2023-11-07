@@ -1,8 +1,18 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import javax.swing.*;
+import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.JTextArea;
 
 
 public class Buttons {
@@ -10,8 +20,34 @@ public class Buttons {
 	static DecimalFormat BLT;
 	private static boolean FileRead = false , Kerf = false;
 	
+	
+	 public static void addFileButton(JButton fileButton, JTextArea fileContentTextArea) {
+	        JPopupMenu popupMenu = new JPopupMenu();
+	        JMenuItem item1 = new JMenuItem("Open new file");
+	        JMenuItem item2 = new JMenuItem("Add file to project");
+	        
+	        item1.addActionListener(e -> openFile(fileContentTextArea));
+	        item2.addActionListener(e -> AddFile(fileContentTextArea));
+	        
+	        popupMenu.add(item1);
+	        popupMenu.add(item2);
+	        fileButton.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                popupMenu.show(fileButton, 0, fileButton.getHeight());
+	            }
+	        });
+	 }
+
+	
+	
+	
+	
 	public static void openFile(JTextArea fileContentTextArea){
+		InnerPanel.innerPanel.removeAll(); 
+		InnerPanel.innerSheetsPanel.removeAll();
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Open New File");
         int result = fileChooser.showOpenDialog(fileContentTextArea);
 
         if (result == JFileChooser.APPROVE_OPTION) {
@@ -21,11 +57,38 @@ public class Buttons {
             try {
             	Algorithm.CutListAlgorithm(selectedFile.getAbsolutePath());
             	FileRead = true;
+            	Algorithm.FileRead = true;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+	
+	
+	public static void AddFile(JTextArea fileContentTextArea) {
+		if(Algorithm.FileRead)
+		{	
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Add a File");
+		int result = fileChooser.showOpenDialog(fileContentTextArea);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            fileContentTextArea.setText(selectedFile.getName());
+           
+            try {
+            	Algorithm.CutListAlgorithm(selectedFile.getAbsolutePath());
+            	FileRead = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        	}
+		}
+        else
+        {
+        	JOptionPane.showMessageDialog(null, "Please open a file before adding one");
+        }
+	}
+
 
     public static void submitAction(){
         BLT = new DecimalFormat("0.000");
@@ -101,6 +164,26 @@ public class Buttons {
                     "Please open a valid file and submit a kerf thickness before running", "No File Detected", JOptionPane.ERROR_MESSAGE);
     	}
     	
+    }
+    
+	public static void captureScreen(JFrame frame, JTextArea fileContentTextArea) {
+		try {
+	        BufferedImage screenshot = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_ARGB);
+	        frame.paint(screenshot.getGraphics());
+
+	        JFileChooser fileChooser = new JFileChooser();
+	        fileChooser.setDialogTitle("Save Screenshot");
+	        int result = fileChooser.showOpenDialog(fileContentTextArea);
+
+	        if (result == JFileChooser.APPROVE_OPTION) {
+	            File fileToSave = fileChooser.getSelectedFile();
+	            ImageIO.write(screenshot, "png", fileToSave);
+	            JOptionPane.showMessageDialog(null, "Screenshot saved successfully!");
+	        }
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	        JOptionPane.showMessageDialog(null, "Error capturing and saving screenshot.");
+	    }
     }
     
 	public static void Grid(ItemEvent e) {

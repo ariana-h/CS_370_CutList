@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -7,7 +8,7 @@ import javax.swing.*;
 public class Algorithm {
 	static ArrayList<Wood> Boards  = new ArrayList<Wood>();
 	static ArrayList<Wood> Pieces  = new ArrayList<Wood>();
-	static boolean grid , Label , Measure;
+	static boolean grid , Label , Measure , FileRead = false;
 	
 	static JPanel ty = new JPanel();
 	
@@ -42,6 +43,7 @@ public class Algorithm {
 	}
 	
 	public static void Canvas(Graphics g){
+		FontMetrics fontMetrics = g.getFontMetrics(g.getFont());
 		 Graphics2D g2d = (Graphics2D) g;
 		 
 		 g2d.setStroke(new BasicStroke(1)); 
@@ -77,7 +79,7 @@ public class Algorithm {
 			 found = false;
 			 for (Rectangle R : DrawRect){
 				 oldY = 0;
-				 if(R.getWidth() > W.GetWidth() && R.getHeight()>W.GetHeight() && !found)
+				 if(R.getWidth() >= W.GetWidth() && R.getHeight()>=W.GetHeight() && !found)
 				 {
 					 found = true;
 					 g.setColor(Color.blue);
@@ -88,11 +90,41 @@ public class Algorithm {
 					 g.fillRect((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight());
 					   
 					 //Display Label
+					 if(Label)
+					 {
 					 g.setColor(Color.black);
-					 g.setFont(new Font("Helvetica",0,(int)InnerPanel.kerfThickness));
-					 FontMetrics fontMetrics = g.getFontMetrics(g.getFont());
+					 g.setFont(new Font("Helvetica",0,10));
 					 int PW = fontMetrics.stringWidth(W.GetName());
 					 g.drawString(W.GetName(), (int)(Name.getCenterX() - (int)(PW/2)), (int)(Name.getCenterY() +(int)(InnerPanel.kerfThickness/3)));
+					 }
+					 if (Measure)
+					 {
+						int Wid = fontMetrics.stringWidth(String.valueOf(W.GetWidth()));
+						int Hit = fontMetrics.stringWidth(String.valueOf(W.GetHeight())); 
+						 g.setColor(Color.WHITE);
+						 g.setFont(new Font("Helvetica",Font.BOLD,10));
+						 int PW = fontMetrics.stringWidth(W.GetName());
+						 
+						g.drawString(String.valueOf(W.GetWidth()), (int)(Name.getCenterX() - (int)(Wid /2)), (int)(((Name.getCenterY()+ (W.GetHeight()/2))+ ((InnerPanel.kerfThickness+6)/2))));
+						
+	                    // Calculate the center of the panel
+	                    int centerX = (int)(Name.getMaxX()) - (int)(Hit/2) + (int)((InnerPanel.kerfThickness+24)/4);
+	                    int centerY = (int)(Name.getCenterY())+ g.getFont().getSize()/4;
+	                    
+
+
+	                    // Rotate the text by -90 degrees at the calculated position
+	                    AffineTransform oldTransform = g2d.getTransform();
+	                    g2d.translate(centerX, centerY);
+	                    g2d.rotate(-Math.PI / 2);
+	                    g2d.drawString(String.valueOf(W.GetHeight()), -(int)((Hit/2)- g.getFont().getSize()/4), (int)(Hit/2) + g.getFont().getSize()/4);
+
+	                    // Reset the transformation
+	                    g2d.setTransform(oldTransform);
+	                    
+						
+						
+					 }
 					   
 					 oldY+=(int)(W.GetHeight()+ InnerPanel.kerfThickness);
 					 block = DrawRect.indexOf(R);
@@ -113,29 +145,19 @@ public class Algorithm {
 	
 
 	private static void CreateTable(ArrayList<Wood> List){
-		InnerPanel.innerPanel.removeAll();
-		if (!Boards.isEmpty()){
-			Boards.clear();
-		}
-		if (!Pieces.isEmpty()){
-				Pieces.clear();
-		}
-		
+
+	if(!FileRead)
+	{
 		JLabel length = new JLabel("Height");
         JLabel width = new JLabel("Width");
         JLabel quantity = new JLabel("Quantity     ");
         JLabel label0 = new JLabel("Label");
         
-        try {
-			InnerPanel.innerPanel.add(length);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		InnerPanel.innerPanel.add(length);
         InnerPanel.innerPanel.add(width);
         InnerPanel.innerPanel.add(quantity);
         InnerPanel.innerPanel.add(label0);
         
-		InnerPanel.innerSheetsPanel.removeAll();
 
         
         JLabel length1 = new JLabel("Height");
@@ -146,9 +168,8 @@ public class Algorithm {
         InnerPanel.innerSheetsPanel.add(length1);
         InnerPanel.innerSheetsPanel.add(width1);
 		InnerPanel.innerSheetsPanel.add(quantity1);
-        InnerPanel.innerSheetsPanel.add(label1);
-        
-        
+        InnerPanel.innerSheetsPanel.add(label1); 
+	}    
 	
         for(Wood W : List){
 			if(W.GetWoodtype().equals("Piece")){
