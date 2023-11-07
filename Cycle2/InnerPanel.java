@@ -14,11 +14,15 @@ public class InnerPanel {
     	JPanel filesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     	filesPanel.setBackground(Color.WHITE);
         JTextArea fileContentTextArea = new JTextArea();
-	    JButton fileButton = new JButton("Open File");
-	    fileButton.addActionListener(e -> {Buttons.openFile(fileContentTextArea);});
-        JLabel fileNameLabel = new JLabel("Selected file: ");
-        
+	    JButton fileButton = new JButton("File");  
+	    Buttons.addFileButton(fileButton, fileContentTextArea);
+
+        fileButton.setBounds(10, 10, 100, 30);
         filesPanel.add(fileButton);
+        filesPanel.setSize(200, 100);
+        
+        JLabel fileNameLabel = new JLabel("Selected file: ");
+
         filesPanel.add(fileNameLabel);
         filesPanel.add(fileContentTextArea);
 		return filesPanel;
@@ -30,7 +34,12 @@ public class InnerPanel {
     	
     	JButton calcButton = new JButton("Calculate");
     	calcButton.addActionListener(e -> {Buttons.Draw();});
+    	JTextArea fileContentTextArea = new JTextArea();
     	JButton saveButton = new JButton("Save");
+
+   	saveButton.addActionListener(e -> {Buttons.captureScreen(CreateGUI.frame, fileContentTextArea);});
+    	
+    	calcPanel.add(fileContentTextArea);
     	
     	calcPanel.add(calcButton);
     	calcPanel.add(saveButton);
@@ -55,36 +64,35 @@ public class InnerPanel {
 	}
 	
 	public static JPanel Kerf() {
-        JPanel innerKerfPanel = new JPanel();
-        innerKerfPanel.setLayout(new GridLayout(0,3,5,0));
-        innerKerfPanel.setBorder(new LineBorder(Color.BLACK, 1));
-        innerKerfPanel.setBackground(Color.LIGHT_GRAY);
-        //innerKerfPanel.setPreferredSize(new Dimension(350, 200));
+	    JPanel innerKerfPanel = new JPanel();
+	    innerKerfPanel.setLayout(new BoxLayout(innerKerfPanel, BoxLayout.Y_AXIS));
+	    innerKerfPanel.setBackground(Color.LIGHT_GRAY); 
+	    innerKerfPanel.setBorder(new LineBorder(Color.BLACK, 1));
+	    //innerKerfPanel.setPreferredSize(new Dimension(300, 200));
+	    
+	    JPanel kerfRowPanel = new JPanel();
+	    kerfRowPanel.setLayout(new BoxLayout(kerfRowPanel, BoxLayout.X_AXIS));
+	    kerfRowPanel.setBackground(Color.LIGHT_GRAY);
         
-        JLabel kerfLabel = new JLabel("   Kerf Thickness"); 
-        innerKerfPanel.add(kerfLabel);
+	    JLabel kerfLabel = new JLabel("Kerf Thickness ");
+	    kerfRowPanel.add(kerfLabel);;
         
         text = new JTextField(10);
-        innerKerfPanel.add(text);
+        text.setMaximumSize(new Dimension(90, 20));
+	    kerfRowPanel.add(text);
         text.addActionListener(e -> Buttons.submitAction());
         
         JButton b = new JButton("submit");
-        innerKerfPanel.add(b);
+        kerfRowPanel.add(b);
         b.addActionListener(e -> Buttons.submitAction());
         
-        innerKerfPanel.add(Checkbox("Grid"));
-        innerKerfPanel.add(new JLabel());		//dummy space
-        innerKerfPanel.add(new JLabel());
-        innerKerfPanel.add(Checkbox("Wood Grain"));
-        innerKerfPanel.add(new JLabel());
-        innerKerfPanel.add(new JLabel());
-        innerKerfPanel.add(Checkbox("Labels"));
-        innerKerfPanel.add(new JLabel());
-        innerKerfPanel.add(new JLabel());
-        innerKerfPanel.add(Checkbox("Dimensions"));
+	    innerKerfPanel.add(kerfRowPanel);
+	    innerKerfPanel.add(Checkbox("Grid"));
+	    innerKerfPanel.add(Checkbox("Wood Grain"));
+	    innerKerfPanel.add(Checkbox("Labels"));
+	    innerKerfPanel.add(Checkbox("Dimensions"));
+	    return innerKerfPanel;
 
-   
-		return innerKerfPanel;
 	}
 	
 	public static JPanel Checkbox(String s)
@@ -111,7 +119,7 @@ public class InnerPanel {
 	               {
 	            	   Buttons.Label(e);
 	               }
-	               if(s.compareTo("Measurements")==0)
+	               if(s.compareTo("Dimensions")==0)
 	               {
 	            	   Buttons.Measure(e);
 	               }

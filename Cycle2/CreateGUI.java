@@ -1,12 +1,10 @@
+
 import java.awt.*;
 import java.text.DecimalFormat;
 import javax.swing.*;
-
-
 public class CreateGUI extends JFrame{
 	DecimalFormat BLT = new DecimalFormat("0.000");
 	static JFrame frame = new JFrame("CutList Optimizer");
-
     public CreateGUI(){
     	CreateWindow();  
     	
@@ -18,6 +16,8 @@ public class CreateGUI extends JFrame{
         MainContainer.mainContainer.add(WestPanel.Create(), BorderLayout.WEST);
         //east panel        
         MainContainer.mainContainer.add(EastPanel.Create(), BorderLayout.NORTH);
+        //Middle panel
+        MainContainer.mainContainer.add(MiddlePanel.Create());
         
         frame.add(ScrollPanes.JSPW(),BorderLayout.WEST);
         frame.add(EastPanel.panelEast, BorderLayout.EAST);
@@ -26,7 +26,6 @@ public class CreateGUI extends JFrame{
         
         frame.setVisible(true); 
     }
-
     public static void CreateWindow(){
     	Dimension DimMax = Toolkit.getDefaultToolkit().getScreenSize();
    	 	frame.setSize(DimMax);
