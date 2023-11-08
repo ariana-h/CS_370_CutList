@@ -8,9 +8,10 @@ import javax.swing.*;
 public class Algorithm {
 	static ArrayList<Wood> Boards  = new ArrayList<Wood>();
 	static ArrayList<Wood> Pieces  = new ArrayList<Wood>();
-	static boolean grid , Label , Measure , FileRead = false;
-	
+	static boolean grid , Label , Measure, calc, FileRead = false;
 	static JPanel ty = new JPanel();
+	
+	public static int UsedArea , TotalArea;
 	
 	public static void DrawAlg(){
 
@@ -27,10 +28,17 @@ public class Algorithm {
  			  Grid(g);
  			  }
  			  Canvas(g);
- 		   }
+ 			  
+ 			  if(calc)
+ 			  {
+ 			 InnerPanel.UsedArea.setText("Total Used Area: "+ UsedArea + " / " + (int)((((double)(UsedArea)/TotalArea))*100)+"%" );
+ 		  	 InnerPanel.WastedArea.setText("Total Wasted Area: "+ (TotalArea - UsedArea)+ " / " + (int)((((double)(TotalArea-UsedArea)/TotalArea))*100)+"%");
+ 		  	 calc = false;
+ 			  }
+ 		   }   
  	   };
- 	   
- 	  MiddlePanel.panelMiddle.add(ty);	
+ 	  MiddlePanel.panelMiddle.add(ty);
+ 	  TotalArea=UsedArea = 0;
 	}
 	
 	public static void Grid(Graphics g)
@@ -66,9 +74,12 @@ public class Algorithm {
 					 (2*InnerPanel.kerfThickness)),(int)(W.GetHeight()+ (2*InnerPanel.kerfThickness))); 
 			 
 			 g.setColor(Color.magenta);
-			 DrawRect.add(new Rectangle(0, 0 +oldY,(int)W.GetWidth(),(int)W.GetHeight()));
+			 Rectangle Stock = new Rectangle(0, 0 +oldY,(int)W.GetWidth(),(int)W.GetHeight());
+			 DrawRect.add(Stock);
 			 g.fillRect(0, 0 +oldY,(int)W.GetWidth(),(int)W.GetHeight());
-			   
+			 
+			 TotalArea += Stock.height * Stock.width;
+ 
 			 oldY+=(int)(W.GetHeight()+ InnerPanel.kerfThickness);
 		 }
 		 		 
@@ -88,12 +99,14 @@ public class Algorithm {
 					 //DrawRect.add(new Rectangle((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight()));
 					 Rectangle Name = new Rectangle((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight());
 					 g.fillRect((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight());
+					
+					 UsedArea += Name.width * Name.height;
 					   
 					 //Display Label
 					 if(Label)
 					 {
 					 g.setColor(Color.black);
-					 g.setFont(new Font("Helvetica",0,10));
+					 g.setFont(new Font("Helvetica",Font.BOLD,10));
 					 int PW = fontMetrics.stringWidth(W.GetName());
 					 g.drawString(W.GetName(), (int)(Name.getCenterX() - (int)(PW/2)), (int)(Name.getCenterY() +(int)(InnerPanel.kerfThickness/3)));
 					 }
@@ -134,6 +147,7 @@ public class Algorithm {
 			if(found)
 				DrawRect.remove(block);
 		 }
+		 
 	}
 	
 	

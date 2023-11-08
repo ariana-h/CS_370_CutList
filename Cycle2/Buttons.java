@@ -154,6 +154,7 @@ public class Buttons {
     {
     	if(FileRead && Kerf)
     	{
+    	Algorithm.calc = true;
     	Algorithm.DrawAlg();
     	Algorithm.ty.revalidate();
     	}
