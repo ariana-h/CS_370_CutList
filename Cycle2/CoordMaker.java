@@ -1,19 +1,20 @@
 
+
 public class CoordMaker {
 	private String piece, Base;
 	private int x,y, xsize, ysize;
 	public CoordMaker() {
 	}
 	
-	public CoordMaker(String wood, String base, int xsize, int ysize) {
-		this.piece=wood;
+	public CoordMaker(String name, String base, int xsize, int ysize) {
+		this.piece=name;
 		this.Base =base;
 		this.xsize = xsize;
 		this.ysize = ysize;
 	}
 	
-	public CoordMaker(String wood, String base, int x, int y, int xsize, int ysize) {
-		this.piece=wood;
+	public CoordMaker(String name, String base, int x, int y, int xsize, int ysize) {
+		this.piece=name;
 		this.Base = base;
 		this.x=x;
 		this.y=y;
