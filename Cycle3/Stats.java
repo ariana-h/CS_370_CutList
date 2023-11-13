@@ -12,25 +12,5 @@ public class Stats {
 	     
 		return globalStats;
 	}
-	
-	public static JPanel Sheet() {
-        JPanel sheetStats = new JPanel();
-        sheetStats.setBorder(new TitledBorder(null, "Sheet Statistics", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        sheetStats.setPreferredSize(new Dimension(250, 75));
-        
-        sheetStats.add(InnerPanel.SheetStats());
-        
-		return sheetStats;
-	}
-	
-	public static JPanel Cuts() {
-        JPanel cutStats = new JPanel();
-        cutStats.setBorder(new TitledBorder(null, "Cuts", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		
-        cutStats.add(InnerPanel.CutStats());
-        
-        return cutStats;
-	}
 
-	
 }
