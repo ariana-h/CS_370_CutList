@@ -6,22 +6,25 @@ import javax.swing.JPanel;
 
 public class DrawAlg {
 	static int k = 0;
+	static boolean lock =false;
 	public static void dalg(ArrayList<Wood> Board, ArrayList<CoordMaker> colist) {
 		
-		for( k=0; k< Board.size(); k++) {
+		do {
 	JPanel rupart = new JPanel() {
 		  int by=0;
 
 		@Override
 		   public void paint (Graphics g) {
-			    
-			   
+			    if (lock == false) {
+			  System.out.println("if this comes up multiple time we're fucked");
+			  
 			  g.setColor(Color.black);
 			  g.fillRect(0,by, (int) (Board.get(k-1).GetWidth() +InnerPanel.kerfThickness) , (int) (Board.get(k-1).GetHeight() + InnerPanel.kerfThickness));
 			  g.setColor(Color.GREEN);
 			  g.fillRect(0,by, (int) Board.get(k-1).GetWidth(), (int) Board.get(k-1).GetHeight());
-			 // by = (int) (by+ Board.get(k-1).GetHeight()+ 30);
-			  
+			  by = (int) (by+ Board.get(k-1).GetHeight()+ 30);
+			  lock = true;
+			    }
 			  
 			   for(int j=0; j< colist.size(); j++) {
 				   if(colist.get(j).getBase() == Board.get(k-1).GetWoodtype() ) {
@@ -34,7 +37,7 @@ public class DrawAlg {
 				   }
 			   }
 			   
-			   }
+			   } 
 			  /* 
 			  int i = 0;
 			  for ( i =0; i< size; i++) { 
@@ -54,7 +57,9 @@ public class DrawAlg {
 			  	 
 		   };
 		MiddlePanel.panelMiddle.add(rupart);   
-	   }
+		k++;
+	   }while (k < Board.size() );
+		
 	}
 	
 }

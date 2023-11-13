@@ -150,10 +150,13 @@ public class Javabin {
 	        								if (pieces.get(count).GetWidth() + x > board.get(plank).GetWidth()) {
 	        									System.out.println("oob");
 	        								
-	        								y= (int) (placement.get(xtra).getY() + placement.get(xtra).getYsize() + InnerPanel.kerfThickness);
+	        								y= y+1;
 	        								x=0;
 	        								q=0;
 	        								if (y+ pieces.get(count).GetHeight() > board.get(plank).GetHeight()) {
+	        									notpos = true;
+	        								}
+	        								if(temp > placement.size()) {
 	        									notpos = true;
 	        								}
 	        								}
