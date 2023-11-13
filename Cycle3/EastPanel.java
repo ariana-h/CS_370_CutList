@@ -11,8 +11,6 @@ public class EastPanel {
         panelEast.setLayout(new BoxLayout(panelEast, BoxLayout.Y_AXIS));
         
 	    panelEast.add(Stats.Global());
-        panelEast.add(Stats.Sheet());
-        panelEast.add(Stats.Cuts());
         
 		return panelEast;
 

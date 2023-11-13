@@ -151,7 +151,7 @@ public class InnerPanel {
 	    addLabelWithSpace(innerGlobalStats, "Total cuts: ");
 	    addLabelWithSpace(innerGlobalStats, "Total cut length: ");
 	    kerfThicknessLabel = new JLabel("Kerf Thickness: ");
-	    addLabelWithSpace(innerGlobalStats, "Optimization priority: ");
+	    addLabelWithSpace(innerGlobalStats, "Optimization priority: Best Fit");
         
 	    kerfThicknessLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 	    UsedArea.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
@@ -162,43 +162,6 @@ public class InnerPanel {
         innerGlobalStats.setPreferredSize(new Dimension(225, 200));
     
         return innerGlobalStats;
-	}
-	
-	public static JPanel SheetStats() {
-        JPanel innerSheetStats = new JPanel();
-        innerSheetStats.setBorder(new LineBorder(Color.BLACK, 1));
-        innerSheetStats.setBackground(Color.WHITE);
-        innerSheetStats.setLayout(new BoxLayout(innerSheetStats, BoxLayout.Y_AXIS));
-        
-        addLabelWithSpace(innerSheetStats, "Stock sheet: ");
-        addLabelWithSpace(innerSheetStats, "Used area: ");
-        addLabelWithSpace(innerSheetStats, "Wasted area: ");
-        addLabelWithSpace(innerSheetStats, "Cuts: ");
-        addLabelWithSpace(innerSheetStats, "Cut length: ");
-        addLabelWithSpace(innerSheetStats, "Panels: ");
-        addLabelWithSpace(innerSheetStats, "Wasted panels: ");
-        innerSheetStats.setPreferredSize(new Dimension(225, 200));
-        
-		return innerSheetStats;
-	}
-	
-	public static JPanel CutStats() {
-		JPanel innerCutStats = new JPanel();
-        innerCutStats.setBorder(new LineBorder(Color.BLACK, 1));
-        innerCutStats.setBackground(Color.WHITE);
-        
-        JLabel numberLabel = new JLabel("#      ");
-        JLabel panelLabel = new JLabel("Panel         ");
-        JLabel cutLabel = new JLabel("Cut        ");
-        JLabel resultLabel = new JLabel("Result");
-        
-        innerCutStats.add(numberLabel);
-        innerCutStats.add(panelLabel);
-        innerCutStats.add(cutLabel);
-        innerCutStats.add(resultLabel);
-        innerCutStats.setPreferredSize(new Dimension(225, 25));
-		
-        return innerCutStats;
 	}
 	
 	public static void addLabelWithSpace(JPanel panel, String labelText){
