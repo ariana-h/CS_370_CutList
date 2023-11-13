@@ -100,43 +100,105 @@ public class Buttons {
             return;
         }
         int numSlash = 0;
+        int numSpace = 0;
         for(int i = 0 ; i < kerfThicknessText.length() ; i++ ) {
             char c = kerfThicknessText.charAt(i);
             if(c==47)
             	numSlash++;
+            if(c==32)
+            	numSpace++;
         }
             
         //Validates if the input is a valid double or integer
-        if(numSlash == 0) {
+        if(numSlash == 0 && numSpace ==0) {
             try {
+            	if(Double.parseDouble(kerfThicknessText)>0)
+            	{
             	InnerPanel.kerfThickness = Double.parseDouble(kerfThicknessText);
             	//Displays the blade thickness on the GUI
            		InnerPanel.kerfThicknessLabel.setText("Kerf Thickness: " + InnerPanel.kerfThickness);
             	Kerf = true;  
+            	}
+            	else
+            	{
+            		JOptionPane.showMessageDialog(null, 
+               				"Invalid input. Please enter a valid positive number.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            	}
+            		
             } catch (NumberFormatException ex) {
            		//Handle invalid input (not a double or integer)
            		JOptionPane.showMessageDialog(null, 
            				"Invalid input. Please enter a valid number.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
            	}
         }
-        if(numSlash > 1 || kerfThicknessText.charAt(0)==47 || kerfThicknessText.charAt(kerfThicknessText.length()-1)==47) {
+        if(numSlash > 1 || kerfThicknessText.charAt(0)==47 || kerfThicknessText.charAt(kerfThicknessText.length()-1)==47 ||
+           numSpace > 1 || kerfThicknessText.charAt(0)==32 || kerfThicknessText.charAt(kerfThicknessText.length()-1)==32) {
           	JOptionPane.showMessageDialog(null, 
            		"Invalid input. Please enter a valid fraction.", "Invalid Input", JOptionPane.ERROR_MESSAGE);	
         }
+        
+        else if (numSpace > 0 && numSlash==0)
+        {
+        	JOptionPane.showMessageDialog(null, 
+               		"Invalid input. Cant enter mix fraction without a fraction", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+        }
             
-        else if(numSlash == 1){
+        else if(numSlash == 1 && numSpace ==0){
            	String[] numbers = new String[2];
            	numbers = kerfThicknessText.split("/");
            	try {
            		double num1 =Double.parseDouble(numbers[0]);
           		double num2 =Double.parseDouble(numbers[1]);
            			
-           		if(num2 == 0){ 
+           		if(num2==0){ 
            			JOptionPane.showMessageDialog(null, 
            				"Invalid input. Cannot divide by 0.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
             	}
+           		else if (num1 < 0 || num2 < 0)
+           		{
+           			JOptionPane.showMessageDialog(null, 
+               				"Invalid input. Please input positive numbers.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+           		}
             	else{
             		InnerPanel.kerfThickness = num1/num2;
+            		InnerPanel.kerfThickness = Double.parseDouble(BLT.format(InnerPanel.kerfThickness));
+            		InnerPanel.kerfThicknessLabel.setText("kerf Thickness: " + kerfThicknessText);
+                	Kerf = true;  
+            	}
+                        
+            } catch (NumberFormatException ex){
+                //Handle invalid input (not a double or integer)
+            	JOptionPane.showMessageDialog(null, 
+                      "Invalid input. Please enter a valid fraction with numbers.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
+        
+        else if(numSlash == 1 && numSpace ==1){
+        	String[] number = new String[2];
+           	number = kerfThicknessText.split(" ");
+           	
+        	String[] fraction = new String[2];
+           	fraction = number[1].split("/");
+
+
+           	try {
+           		double num0 =Double.parseDouble(number[0]);
+          		double num1 =Double.parseDouble(fraction[0]);
+          		double num2 =Double.parseDouble(fraction[1]);
+           			
+           		if(num2 ==0){ 
+           			JOptionPane.showMessageDialog(null, 
+           				"Invalid input. Cannot divide by 0.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            	}
+           		else if (num0 < 0 || num1<0 || num2<0)
+           		{
+           			JOptionPane.showMessageDialog(null, 
+               				"Invalid input. Please input positive numbers.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+           		}
+           		
+            	else{
+            		InnerPanel.kerfThickness = ((num0 * num2)+num1)/num2;
             		InnerPanel.kerfThickness = Double.parseDouble(BLT.format(InnerPanel.kerfThickness));
             		InnerPanel.kerfThicknessLabel.setText("kerf Thickness: " + kerfThicknessText);
                 	Kerf = true;  
