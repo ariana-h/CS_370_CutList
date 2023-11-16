@@ -31,8 +31,8 @@ public class CutList {
 				List.add(new Wood(
 						Row.getCell(0).getStringCellValue(),
 						Row.getCell(1).getStringCellValue(),
-						Row.getCell(2).getNumericCellValue(),
-						Row.getCell(3).getNumericCellValue(),
+						Row.getCell(2).getNumericCellValue()*10,
+						Row.getCell(3).getNumericCellValue()*10,
 						Row.getCell(4).getNumericCellValue(),
 						Row.getCell(5).getStringCellValue()));
 			}
@@ -41,8 +41,8 @@ public class CutList {
 				List.add(new Wood(
 						Row.getCell(0).getStringCellValue(),
 						Row.getCell(1).getStringCellValue(),
-						Row.getCell(2).getNumericCellValue(),
-						Row.getCell(3).getNumericCellValue(),
+						Row.getCell(2).getNumericCellValue()*10,
+						Row.getCell(3).getNumericCellValue()*10,
 						Row.getCell(4).getNumericCellValue()));
 			}
 			

@@ -12,6 +12,7 @@ public class Algorithm {
 	static JPanel ty = new JPanel();
 	
 	public static int UsedArea , TotalArea;
+	public static ArrayList<Wood> List;
 	
 	public static void DrawAlg(){
 
@@ -31,6 +32,7 @@ public class Algorithm {
  			  
  			  if(calc)
  			  {
+ 				 //Javabin.alg(List);
  			 InnerPanel.UsedArea.setText("Total Used Area: "+ UsedArea + " / " + (int)((((double)(UsedArea)/TotalArea))*100)+"%" );
  		  	 InnerPanel.WastedArea.setText("Total Wasted Area: "+ (TotalArea - UsedArea)+ " / " + (int)((((double)(TotalArea-UsedArea)/TotalArea))*100)+"%");
  		  	 calc = false;
@@ -44,9 +46,9 @@ public class Algorithm {
 	public static void Grid(Graphics g)
 	{
 		g.setColor(Color.BLACK);
-		 for(int x = 1; x<(int)(MiddlePanel.panelMiddle.getWidth()/InnerPanel.kerfThickness)+1 ; x++){
-			 g.drawLine(0,(int)(InnerPanel.kerfThickness*x),MiddlePanel.panelMiddle.getWidth(),(int)(InnerPanel.kerfThickness*x));
-			 g.drawLine((int)(InnerPanel.kerfThickness*x),0,(int)(InnerPanel.kerfThickness*x),MiddlePanel.panelMiddle.getHeight());
+		 for(int x = 1; x<(int)(MiddlePanel.panelMiddle.getWidth()/10)+1 ; x++){
+			 g.drawLine(0,(int)(10*x),MiddlePanel.panelMiddle.getWidth(),(int)(10*x));
+			 g.drawLine((int)(InnerPanel.kerfThickness*x),0,(int)(10*x),MiddlePanel.panelMiddle.getHeight());
 		 }	
 	}
 	
@@ -108,21 +110,21 @@ public class Algorithm {
 					 g.setColor(Color.black);
 					 g.setFont(new Font("Helvetica",Font.BOLD,10));
 					 int PW = fontMetrics.stringWidth(W.GetName());
-					 g.drawString(W.GetName(), (int)(Name.getCenterX() - (int)(PW/2)), (int)(Name.getCenterY() +(int)(InnerPanel.kerfThickness/3)));
+					 g.drawString(W.GetName(), (int)(Name.getCenterX() - (int)(PW/2)), (int)(Name.getCenterY() +(int)(InnerPanel.kerfThickness/2)));
 					 }
 					 if (Measure)
 					 {
 						int Wid = fontMetrics.stringWidth(String.valueOf(W.GetWidth()));
 						int Hit = fontMetrics.stringWidth(String.valueOf(W.GetHeight())); 
-						 g.setColor(Color.WHITE);
+						 g.setColor(Color.BLACK);
 						 g.setFont(new Font("Helvetica",Font.BOLD,10));
 						 int PW = fontMetrics.stringWidth(W.GetName());
 						 
-						g.drawString(String.valueOf(W.GetWidth()), (int)(Name.getCenterX() - (int)(Wid /2)), (int)(((Name.getCenterY()+ (W.GetHeight()/2))+ ((InnerPanel.kerfThickness+6)/2))));
+						g.drawString(String.valueOf(W.GetWidth()), (int)(Name.getCenterX() - (int)(Wid /2)), (int)(Name.getCenterY()+ (W.GetHeight()/2)));
 						
 	                    // Calculate the center of the panel
-	                    int centerX = (int)(Name.getMaxX()) - (int)(Hit/2) + (int)((InnerPanel.kerfThickness+24)/4);
-	                    int centerY = (int)(Name.getCenterY())+ g.getFont().getSize()/4;
+	                    int centerX = (int)(Name.getCenterX() - (int)(PW/2));
+	                    int centerY = (int)(Name.getCenterY() +(int)(InnerPanel.kerfThickness/2));
 	                    
 
 
@@ -130,7 +132,7 @@ public class Algorithm {
 	                    AffineTransform oldTransform = g2d.getTransform();
 	                    g2d.translate(centerX, centerY);
 	                    g2d.rotate(-Math.PI / 2);
-	                    g2d.drawString(String.valueOf(W.GetHeight()), -(int)((Hit/2)- g.getFont().getSize()/4), (int)(Hit/2) + g.getFont().getSize()/4);
+	                    g2d.drawString(String.valueOf(W.GetHeight()), -(int)((Hit/2)- g.getFont().getSize()/4), (int)(Hit*3) + g.getFont().getSize()/4);
 
 	                    // Reset the transformation
 	                    g2d.setTransform(oldTransform);
@@ -153,7 +155,7 @@ public class Algorithm {
 	
 	public static void CutListAlgorithm(String name) throws IOException{
 		CutList.main(name);
-		ArrayList<Wood> List = CutList.GetWood();			
+		List = CutList.GetWood();			
 		CreateTable(List);
 	}
 	
@@ -162,8 +164,8 @@ public class Algorithm {
 
 	if(!FileRead)
 	{
-		JLabel length = new JLabel("Height");
-        JLabel width = new JLabel("Width");
+		JLabel length = new JLabel("Height (in)");
+        JLabel width = new JLabel("Width (in)");
         JLabel quantity = new JLabel("Quantity     ");
         JLabel label0 = new JLabel("Label");
         
@@ -174,8 +176,8 @@ public class Algorithm {
         
 
         
-        JLabel length1 = new JLabel("Height");
-		JLabel width1 = new JLabel("Width");
+        JLabel length1 = new JLabel("Height (in)");
+		JLabel width1 = new JLabel("Width (in)");
 		JLabel quantity1 = new JLabel("Quantity     ");
         JLabel label1 = new JLabel("Label");
         
@@ -188,10 +190,10 @@ public class Algorithm {
         for(Wood W : List){
 			if(W.GetWoodtype().equals("Piece")){
 				//System.out.println("Piece found"); 
-		        JTextArea label= new JTextArea(W.GetHeight()+"");
+		        JTextArea label= new JTextArea(W.GetHeight()/10+"");
 		        label.setEditable(false);
 		        InnerPanel.innerPanel.add(label);
-		        label= new JTextArea(W.GetWidth()+"");
+		        label= new JTextArea(W.GetWidth()/10+"");
 		        label.setEditable(false);
 		        InnerPanel.innerPanel.add(label);
 		        label= new JTextArea(W.GetAmount()+"");
@@ -206,10 +208,10 @@ public class Algorithm {
 			}
 			else{
 				//System.out.println("Wood found"); 
-	        	JTextArea label= new JTextArea(W.GetHeight()+"");
+	        	JTextArea label= new JTextArea(W.GetHeight()/10+"");
 	        	label.setEditable(false);
 	        	InnerPanel.innerSheetsPanel.add(label);
-	        	label= new JTextArea(W.GetWidth()+"");
+	        	label= new JTextArea(W.GetWidth()/10+"");
 	        	label.setEditable(false);
 	        	InnerPanel.innerSheetsPanel.add(label);
 	        	label= new JTextArea(W.GetAmount()+"");

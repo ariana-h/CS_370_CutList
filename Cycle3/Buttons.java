@@ -44,8 +44,6 @@ public class Buttons {
 	
 	
 	public static void openFile(JTextArea fileContentTextArea){
-		InnerPanel.innerPanel.removeAll(); 
-		InnerPanel.innerSheetsPanel.removeAll();
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Open New File");
         int result = fileChooser.showOpenDialog(fileContentTextArea);
@@ -55,6 +53,8 @@ public class Buttons {
             fileContentTextArea.setText(selectedFile.getName());
 
             try {
+        		InnerPanel.innerPanel.removeAll(); 
+        		InnerPanel.innerSheetsPanel.removeAll();
             	Algorithm.CutListAlgorithm(selectedFile.getAbsolutePath());
             	FileRead = true;
             	Algorithm.FileRead = true;
@@ -114,9 +114,9 @@ public class Buttons {
             try {
             	if(Double.parseDouble(kerfThicknessText)>0)
             	{
-            	InnerPanel.kerfThickness = Double.parseDouble(kerfThicknessText);
+            	InnerPanel.kerfThickness = Double.parseDouble(kerfThicknessText)*10;
             	//Displays the blade thickness on the GUI
-           		InnerPanel.kerfThicknessLabel.setText("Kerf Thickness: " + InnerPanel.kerfThickness);
+           		InnerPanel.kerfThicknessLabel.setText("Kerf Thickness: " + InnerPanel.kerfThickness/10 +" in.");
             	Kerf = true;  
             	}
             	else
@@ -160,9 +160,9 @@ public class Buttons {
                				"Invalid input. Please input positive numbers.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
            		}
             	else{
-            		InnerPanel.kerfThickness = num1/num2;
+            		InnerPanel.kerfThickness = (num1/num2)*10;
             		InnerPanel.kerfThickness = Double.parseDouble(BLT.format(InnerPanel.kerfThickness));
-            		InnerPanel.kerfThicknessLabel.setText("kerf Thickness: " + kerfThicknessText);
+            		InnerPanel.kerfThicknessLabel.setText("kerf Thickness: " + kerfThicknessText+" in.");
                 	Kerf = true;  
             	}
                         
@@ -198,9 +198,9 @@ public class Buttons {
            		}
            		
             	else{
-            		InnerPanel.kerfThickness = ((num0 * num2)+num1)/num2;
+            		InnerPanel.kerfThickness = (((num0 * num2)+num1)/num2)*10;
             		InnerPanel.kerfThickness = Double.parseDouble(BLT.format(InnerPanel.kerfThickness));
-            		InnerPanel.kerfThicknessLabel.setText("kerf Thickness: " + kerfThicknessText);
+            		InnerPanel.kerfThicknessLabel.setText("kerf Thickness: " + kerfThicknessText+" in.");
                 	Kerf = true;  
             	}
                         
