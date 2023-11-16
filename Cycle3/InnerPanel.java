@@ -150,7 +150,7 @@ public class InnerPanel {
 	    //addLabelWithSpace(innerGlobalStats, "Total wasted area: ");
 	    addLabelWithSpace(innerGlobalStats, "Total cuts: ");
 	    addLabelWithSpace(innerGlobalStats, "Total cut length: ");
-	    kerfThicknessLabel = new JLabel("Kerf Thickness: ");
+	    kerfThicknessLabel = new JLabel("Kerf Thickness: 0 in.");
 	    addLabelWithSpace(innerGlobalStats, "Optimization priority: Best Fit");
         
 	    kerfThicknessLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
