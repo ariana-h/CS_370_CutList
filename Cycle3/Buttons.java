@@ -44,10 +44,11 @@ public class Buttons {
 	
 	
 	public static void openFile(JTextArea fileContentTextArea){
+    	FileRead = false;
+    	Algorithm.FileRead = false;
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Open New File");
         int result = fileChooser.showOpenDialog(fileContentTextArea);
-
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             fileContentTextArea.setText(selectedFile.getName());
