@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 public class InnerPanel {
-	static JLabel kerfThicknessLabel , UsedArea , WastedArea;
+	static JLabel kerfThicknessLabel , UsedArea , WastedArea , UsedStock;
 	static double kerfThickness;
 	static JPanel innerPanel;
 	static JPanel innerSheetsPanel;
@@ -143,17 +143,21 @@ public class InnerPanel {
         innerGlobalStats.setLayout(new BoxLayout(innerGlobalStats, BoxLayout.Y_AXIS));
 		
 	    //Creating the labels
-	    addLabelWithSpace(innerGlobalStats, "Used stock sheets: ");
+	    UsedStock = new JLabel ("Used stock sheets: ");
 	    UsedArea = new JLabel("Total Used Area: ");
 	    //addLabelWithSpace(innerGlobalStats, "Total used area: ");
 	    WastedArea = new JLabel("Total Wasted Area: ");
 	    //addLabelWithSpace(innerGlobalStats, "Total wasted area: ");
-	    kerfThicknessLabel = new JLabel("Kerf Thickness: ");
+	    addLabelWithSpace(innerGlobalStats, "Total cuts: ");
+	    addLabelWithSpace(innerGlobalStats, "Total cut length: ");
+	    kerfThicknessLabel = new JLabel("Kerf Thickness: 0 in.");
 	    addLabelWithSpace(innerGlobalStats, "Optimization priority: Best Fit");
         
 	    kerfThicknessLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 	    UsedArea.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 	    WastedArea.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+	    UsedStock.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        innerGlobalStats.add(UsedStock);
         innerGlobalStats.add(kerfThicknessLabel);
         innerGlobalStats.add(UsedArea);
         innerGlobalStats.add(WastedArea);
