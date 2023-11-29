@@ -44,7 +44,7 @@ public class Javabin {
 		        	bh= inhere.get(i).GetHeight();
 		        	bw= inhere.get(i).GetWidth();
 		        	for(int z= 0; z< inhere.get(i).GetAmount(); z++) {
-		        	Wood run = new Wood("Sheet " + d, inhere.get(i).GetGrain(), bh,  bw, inhere.get(i).GetAmount());
+		        	Wood run = new Wood("Sheet " + d, inhere.get(i).GetGrain(), bh,  bw, inhere.get(i).GetAmount(), inhere.get(i).GetName());
 		        	System.out.println(run.GetWoodtype() +" "+ run.GetWidth() + " " + run.GetHeight());
 	        		board.add(run); //populates the board list
 	        		d++;
@@ -53,6 +53,7 @@ public class Javabin {
 	        	else {
 		        	ch = inhere.get(i).GetHeight();
 		        	cw = inhere.get(i).GetWidth();
+		        	
 		        	
 		        	Wood run = new Wood(inhere.get(i).GetWoodtype(), inhere.get(i).GetGrain(), ch,  cw, inhere.get(i).GetAmount());
 		        	for(int t= 0; t < run.GetAmount(); t++) {
@@ -119,7 +120,7 @@ public class Javabin {
 	        					else { //after the first piece we now move to the actual algorithm
 	        						
 	        						for (int a=0; a < colist.size(); a++) {
-	        							if(colist.get(a).getBase() == board.get(plank).GetWoodtype() ) {
+	        							if(colist.get(a).getBase() == board.get(plank).GetName() ) {
 	        								placement.add(colist.get(a));
 	        							}
 	        						}
@@ -127,7 +128,7 @@ public class Javabin {
 	        					 // checks if the  unplaced piece is colliding with any already placed piece
 	        						do {
 	        							for(CoordMaker lol : placement) {
-	        								if(x < lol.getXsize() + lol.getX() +InnerPanel.kerfThickness && y < lol.getY()+ lol.getYsize() +InnerPanel.kerfThickness) {
+	        								if(x < lol.getXsize() + lol.getX() + InnerPanel.kerfThickness && y < lol.getY()+ lol.getYsize() + InnerPanel.kerfThickness) {
 	        									canplace = false;
 	        								}
 	        								else {
@@ -140,7 +141,7 @@ public class Javabin {
 	        							
 	        							if(canplace == false) {
 	        								
-	        								x= (int) (placement.get(q).getXsize() + placement.get(q).getX() + InnerPanel.kerfThickness); // if collisions move to the end of the placed piece
+	        								x= (int) (placement.get(q).getXsize() + placement.get(q).getX() +  InnerPanel.kerfThickness); // if collisions move to the end of the placed piece
 	        								
 	        								System.out.println("x is: " + x);
 	        								q++;
@@ -171,7 +172,7 @@ public class Javabin {
 	        						
 	        						
 	        						if (canplace == true){
-	        							CoordMaker cut = new CoordMaker(pieces.get(count).GetName(), ((ArrayList<Wood>) board).get(plank).GetWoodtype(), x, y, (int) pieces.get(count).GetWidth(),(int) pieces.get(count).GetHeight() );
+	        							CoordMaker cut = new CoordMaker(pieces.get(count).GetName(), ((ArrayList<Wood>) board).get(plank).GetName(), x, y, (int) pieces.get(count).GetWidth(),(int) pieces.get(count).GetHeight() );
 	        							colist.add(cut);
 	        							
 	        							
@@ -204,15 +205,7 @@ public class Javabin {
 	        } while(count < pieces.size());
 	      
 	       
-	      for(int p =0; p< colist.size(); p++) {
-	    	  System.out.println(colist.get(p).getBase() + ", " + colist.get(p).getX() + ", " + colist.get(p).getY());
-	    	  
-	      }
 	      
-	      for(int w=0; w< board.size();w++) {
-	      DrawAlg.dalg(board, colist);
-	     
-	      }
 	        return colist;
 	       
 	        
@@ -232,18 +225,11 @@ public class Javabin {
 			return ty;
 	   }
 	     */   
-	       static public ArrayList<Wood> results() {
-	        	//will first create a rectangle from board and draw it
-	    	   
-	    	   return board;
-	    	   
-	    	   
-	    	   
-	       }
-	      
+
 	    	   
 	    	   
 }
+
 
 
 

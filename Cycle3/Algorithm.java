@@ -9,13 +9,13 @@ public class Algorithm {
 	static ArrayList<Wood> Boards  = new ArrayList<Wood>();
 	static ArrayList<Wood> Pieces  = new ArrayList<Wood>();
 	static boolean grid , Label , Measure, calc, FileRead = false;
+	 static ArrayList<CoordMaker> colist = new ArrayList<CoordMaker>();
 	static JPanel ty = new JPanel();
-	
+
 	public static int UsedArea , TotalArea;
-	public static int TotBoard , RemBoard;
 	public static ArrayList<Wood> List;
 	
-	public static void DrawAlg(){
+	public static void DrawAlg(){ // main drawing events
 
 		MiddlePanel.panelMiddle.removeAll();
 		 ty = new JPanel(){
@@ -24,6 +24,7 @@ public class Algorithm {
  			   
  			  g.setColor(Color.LIGHT_GRAY);
  			  g.fillRect(0,0,this.getWidth(),this.getHeight());
+ 			  
  			  if(grid)
  			  {
  			  Grid(g);
@@ -32,8 +33,9 @@ public class Algorithm {
  			  
  			  if(calc)
  			  {
- 				 //Javabin.alg(List);
- 			 InnerPanel.UsedStock.setText("Total Used Stock: " + (TotBoard-RemBoard) + "/" + TotBoard);
+ 				 
+ 				 colist =Javabin.alg(List);
+ 				
  			 InnerPanel.UsedArea.setText("Total Used Area: "+ UsedArea + " / " + (int)((((double)(UsedArea)/TotalArea))*100)+"%" );
  		  	 InnerPanel.WastedArea.setText("Total Wasted Area: "+ (TotalArea - UsedArea)+ " / " + (int)((((double)(TotalArea-UsedArea)/TotalArea))*100)+"%");
  		  	 calc = false;
@@ -85,7 +87,30 @@ public class Algorithm {
  
 			 oldY+=(int)(W.GetHeight()+ InnerPanel.kerfThickness);
 		 }
-		 TotBoard = DrawRect.size();		 
+		 
+		   int r = 0;
+		   int pasty=0;
+		   do{
+		   for(int j=0; j< colist.size(); j++) {
+			   if(colist.get(j).getBase() == Boards.get(r).GetName() ) {
+				   g.setColor(Color.blue);
+				   g.fillRect(colist.get(j).getX() -(int) InnerPanel.kerfThickness, colist.get(j).getY() + pasty +(int) InnerPanel.kerfThickness, colist.get(j).getXsize() +(int) InnerPanel.kerfThickness +(int) InnerPanel.kerfThickness, colist.get(j).getYsize()+ (int) InnerPanel.kerfThickness +pasty);
+				   g.setColor(Color.CYAN);
+				   g.fillRect(colist.get(j).getX(), colist.get(j).getY()+pasty +(int) InnerPanel.kerfThickness, colist.get(j).getXsize(), colist.get(j).getYsize() +pasty);
+				   
+				   
+			   }
+			   
+		   }
+		   pasty= (int) (pasty+Boards.get(r).GetHeight() +InnerPanel.kerfThickness);
+		   r++;
+		   }while(r < Boards.size());
+		 
+		 
+		 
+		 
+		 
+		 
 		 boolean found = false;
 		 int block;
 		 for(Wood W : Pieces){
@@ -96,12 +121,12 @@ public class Algorithm {
 				 if(R.getWidth() >= W.GetWidth() && R.getHeight()>=W.GetHeight() && !found)
 				 {
 					 found = true;
-					 g.setColor(Color.blue);
-					 g.fillRect((int)(R.getX()-InnerPanel.kerfThickness), (int)(R.getY()-InnerPanel.kerfThickness+oldY),(int)(W.GetWidth() + ( 2*InnerPanel.kerfThickness)),(int)(W.GetHeight()+(2*InnerPanel.kerfThickness)));
-					 g.setColor(Color.green);
+					// g.setColor(Color.blue);
+					// g.fillRect((int)(R.getX()-InnerPanel.kerfThickness), (int)(R.getY()-InnerPanel.kerfThickness+oldY),(int)(W.GetWidth() + ( 2*InnerPanel.kerfThickness)),(int)(W.GetHeight()+(2*InnerPanel.kerfThickness)));
+					 //g.setColor(Color.green);
 					 //DrawRect.add(new Rectangle((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight()));
 					 Rectangle Name = new Rectangle((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight());
-					 g.fillRect((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight());
+					 //g.fillRect((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight());
 					
 					 UsedArea += Name.width * Name.height;
 					   
@@ -151,7 +176,6 @@ public class Algorithm {
 				DrawRect.remove(block);
 		 }
 		 
-	RemBoard = DrawRect.size();	 
 	}
 	
 	
