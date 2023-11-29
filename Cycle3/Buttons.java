@@ -46,6 +46,10 @@ public class Buttons {
 	public static void openFile(JTextArea fileContentTextArea){
     	FileRead = false;
     	Algorithm.FileRead = false;
+    	Algorithm.Boards.clear();
+    	Algorithm.Pieces.clear();
+    	Algorithm.ty.repaint();
+    	
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Open New File");
         int result = fileChooser.showOpenDialog(fileContentTextArea);

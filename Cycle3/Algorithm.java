@@ -12,6 +12,7 @@ public class Algorithm {
 	static JPanel ty = new JPanel();
 	
 	public static int UsedArea , TotalArea;
+	public static int TotBoard , RemBoard;
 	public static ArrayList<Wood> List;
 	
 	public static void DrawAlg(){
@@ -23,7 +24,6 @@ public class Algorithm {
  			   
  			  g.setColor(Color.LIGHT_GRAY);
  			  g.fillRect(0,0,this.getWidth(),this.getHeight());
- 			  
  			  if(grid)
  			  {
  			  Grid(g);
@@ -33,6 +33,7 @@ public class Algorithm {
  			  if(calc)
  			  {
  				 //Javabin.alg(List);
+ 			 InnerPanel.UsedStock.setText("Total Used Stock: " + (TotBoard-RemBoard) + "/" + TotBoard);
  			 InnerPanel.UsedArea.setText("Total Used Area: "+ UsedArea + " / " + (int)((((double)(UsedArea)/TotalArea))*100)+"%" );
  		  	 InnerPanel.WastedArea.setText("Total Wasted Area: "+ (TotalArea - UsedArea)+ " / " + (int)((((double)(TotalArea-UsedArea)/TotalArea))*100)+"%");
  		  	 calc = false;
@@ -84,7 +85,7 @@ public class Algorithm {
  
 			 oldY+=(int)(W.GetHeight()+ InnerPanel.kerfThickness);
 		 }
-		 		 
+		 TotBoard = DrawRect.size();		 
 		 boolean found = false;
 		 int block;
 		 for(Wood W : Pieces){
@@ -150,6 +151,7 @@ public class Algorithm {
 				DrawRect.remove(block);
 		 }
 		 
+	RemBoard = DrawRect.size();	 
 	}
 	
 	
