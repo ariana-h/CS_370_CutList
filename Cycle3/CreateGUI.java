@@ -1,5 +1,8 @@
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.DecimalFormat;
 import javax.swing.*;
 public class CreateGUI extends JFrame{
@@ -39,7 +42,48 @@ public class CreateGUI extends JFrame{
     
     
 	public static void main(String[] args){
-        new CreateGUI();
+		
+       
+
+        	new CreateGUI();
+        	SwingUtilities.invokeLater(() -> {
+
+                // Create an action to be performed when the key combination is pressed
+                AbstractAction ZoomIn = new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Trigger the drawing of a square in the panel
+                    	if(Algorithm.ty != null)
+                    	{
+                    		if(Algorithm.scale<10 *InnerPanel.kerfThickness)
+                    			Algorithm.scale=1;
+                    		Algorithm.zoomIn();
+                    	}
+                    } };
+                AbstractAction ZoomOut = new AbstractAction() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // Trigger the drawing of a square in the panel
+                        	if(Algorithm.ty != null)
+                        	{
+                        		if(Algorithm.scale >=1)
+                        			Algorithm.scale=(1/1.02);
+                            Algorithm.zoomOut();
+                        	}
+                        } };    
+
+                
+                KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+                KeyStroke keyStroke1 = KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+                MiddlePanel.panelMiddle.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, "ZoomIn");
+                MiddlePanel.panelMiddle.getActionMap().put("ZoomIn", ZoomIn);
+                MiddlePanel.panelMiddle.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke1, "ZoomOut");
+                MiddlePanel.panelMiddle.getActionMap().put("ZoomOut", ZoomOut);
+
+            });
+        
     }
+
+
    
 }
