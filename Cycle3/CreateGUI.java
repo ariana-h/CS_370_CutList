@@ -1,10 +1,10 @@
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.text.DecimalFormat;
 import javax.swing.*;
+
+@SuppressWarnings("serial")
 public class CreateGUI extends JFrame{
 	DecimalFormat BLT = new DecimalFormat("0.000");
 	static JFrame frame = new JFrame("CutList Optimizer");
@@ -41,6 +41,7 @@ public class CreateGUI extends JFrame{
 	}
     
     
+	@SuppressWarnings({ "deprecation" })
 	public static void main(String[] args){
 		
        

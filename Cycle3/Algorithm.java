@@ -1,9 +1,11 @@
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.*;
+
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 
 public class Algorithm {
@@ -21,6 +23,7 @@ public class Algorithm {
 	public static double scale = 1.0;
 	
 	
+	@SuppressWarnings("serial")
 	public static void DrawAlg(){
 
 		MiddlePanel.panelMiddle.removeAll();
@@ -29,23 +32,12 @@ public class Algorithm {
  		   public void paint (Graphics g){
  			   
  			  g.setColor(Color.LIGHT_GRAY);
- 			  g.fillRect(0,0,this.getWidth(),this.getHeight());
- 			  
- 			  
- 			  //Hayden alg 
- 			  
- 		/*		 System.out.println(colist.size());
- 				 for(CoordMaker cm : colist) 
- 				 {
- 					 cm.Debug();
- 					 System.out.println();
- 				 } 
- 			*/	 
+ 			  g.fillRect(0,0,this.getWidth(),this.getHeight());	 
  				 Canvas(g);
 
  			  if(calc)
  			  { 
- 			 InnerPanel.UsedStock.setText("Total Used Stock: " + (TotBoard-RemBoard) + "/" + TotBoard);
+ 			 InnerPanel.UsedStock.setText("Total Used Stock: " + (RemBoard) + "/" + TotBoard);
  			 InnerPanel.UsedArea.setText("Total Used Area: "+ UsedArea + " / " + (int)((((double)(UsedArea)/TotalArea))*100)+"%" );
  		  	 InnerPanel.WastedArea.setText("Total Wasted Area: "+(TotalArea - UsedArea)+ " / " + (int)((((double)(TotalArea-UsedArea)/TotalArea))*100)+"%");
  		  	 calc = false;
@@ -74,6 +66,7 @@ public class Algorithm {
 		 
 		 
 		 int oldY = 0;
+		 TotBoard=0;
 		 ArrayList<Rectangle> DrawRect = new ArrayList<Rectangle>();
 		 for(Wood W : Boards){
 			 /* 
@@ -91,138 +84,120 @@ public class Algorithm {
 			 Rectangle Stock = new Rectangle(0, 0 +oldY,(int)W.GetWidth(),(int)W.GetHeight());
 			 DrawRect.add(Stock);
 			 g.fillRect(0, 0 +oldY,(int)W.GetWidth(),(int)W.GetHeight());
-			 
+			 TotBoard++;
 			 TotalArea += Stock.height * Stock.width;
  
 			 oldY+=(int)(W.GetHeight()+ InnerPanel.kerfThickness);
 		 }
-		 
-		 //Hayden Alg
-/*		 System.out.println(colist.size());
-		  boolean[] skip = new boolean[colist.size()];
+		  
+		 RemBoard = 0;
+		 boolean[] skip = new boolean[Pieces.size()];
 		 for(int i = 0; i< skip.length ; i++)
-			 		skip[i] = false;
-		 
-		 
-		 ArrayList<String> basenames = new ArrayList<String>();
-
-         for(CoordMaker lol : colist) {
-             if(basenames.contains(lol.getBase())){
-             }
-             else {
-             basenames.add(lol.getBase());
-             }
-         }
-		 
-		 
-		 
-		   int r = 0;
-		   int pasty=0;		   
-		   
-		   
-		   for(String c : basenames)
-		   {
-			  for(int j=0; j< colist.size(); j++) { 
-			   if(colist.get(j).getBase() == basenames.get(r) && !skip[j]) {
-				   g.setColor(Color.blue);
-				   g.fillRect((int)(colist.get(j).getX()-InnerPanel.kerfThickness), (int)(colist.get(j).getY()-InnerPanel.kerfThickness+pasty),
-						   (int)(colist.get(j).getXsize() + ( 2*InnerPanel.kerfThickness)),(int)(colist.get(j).getYsize()+(2*InnerPanel.kerfThickness)));
-				/*   System.out.println("X Start: " + (int)(colist.get(j).getX()-InnerPanel.kerfThickness));
-				   System.out.println("Y Start: " + (int)(colist.get(j).getY()-InnerPanel.kerfThickness+pasty));
-				   System.out.println("X Strech: " + (int)(colist.get(j).getXsize() + ( 2*InnerPanel.kerfThickness)));
-				   System.out.println("X Strech: " + (int)(colist.get(j).getYsize()+(2*InnerPanel.kerfThickness)));
-				   System.out.println(); 
+		 		skip[i] = false;
+	for(int rect = 0; rect<DrawRect.size();rect++)
+	{
+		Rectangle R = DrawRect.get(rect);
+		int MaxX = (int)R.getWidth();
+		int MaxY= (int)R.getHeight();
+		int minX=0, tempMinx=0, minY = 0;
+		boolean used = false;
+		for (int t = 0; t<Pieces.size();t++)
+		{
+			Wood w=Pieces.get(t);
+			if(!skip[t])
+			{	
+				
+			if(((MaxY>=(minY+InnerPanel.kerfThickness+w.GetHeight()))||(MaxY==(minY+w.GetHeight())))&&(minX+w.GetWidth())<=MaxX&&!skip[t])
+			{
+				//System.out.println("Piece Fits");
+				if(MaxX>=(w.GetWidth()+InnerPanel.kerfThickness)&&(w.GetWidth()+InnerPanel.kerfThickness)>tempMinx&&(w.GetWidth()+InnerPanel.kerfThickness)>=minX)
+					tempMinx =(int)(w.GetWidth()+InnerPanel.kerfThickness);
+				
+				
+				
+				used = true;	
+				g.setColor(Color.blue);
+				 g.fillRect((int)(R.getX()-InnerPanel.kerfThickness+minX), (int)(R.getY()-InnerPanel.kerfThickness+minY),(int)(w.GetWidth() + ( 2*InnerPanel.kerfThickness)),(int)(w.GetHeight()+(2*InnerPanel.kerfThickness)));
+				 g.setColor(Color.green);
+			//	 System.out.println("Trial: "+t+" Min: "+ minY + " Max: "+MaxY + "\n Drawing in rect:" +rect + " X: "+(R.getX()+minX)+" Y:" +(R.getY() +minY)+"\n");
+				 //DrawRect.add(new Rectangle((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight()));
+				 Rectangle Name = new Rectangle((int)R.getX()+minX, (int)R.getY() +minY,(int)w.GetWidth(),(int)w.GetHeight());
+				 g.fillRect((int)R.getX()+minX, (int)R.getY() +minY,(int)w.GetWidth(),(int)w.GetHeight());
+				 
+				 UsedArea += Name.width * Name.height;
 				   
-				   
-				   g.setColor(Color.CYAN);
-				   g.fillRect(colist.get(j).getX(), colist.get(j).getY() +pasty,colist.get(j).getXsize(), colist.get(j).getYsize());
-				   skip[j]=true;
-			   }
-			   
-		   }
-		   pasty= (int) (pasty+Boards.get(r).GetHeight() +InnerPanel.kerfThickness);
-		   r++;
-		   } 
-		   
-		   
-		 //End
-		 
-	*/	 
-		 
-		 
-		 
-		 TotBoard = DrawRect.size();		 
-		 boolean found = false;
-		 int block;
-		 for(Wood W : Pieces){
-			 block = -1;
-			 found = false;
-			 for (Rectangle R : DrawRect){
-				 oldY = 0;
-				 if(R.getWidth() >= W.GetWidth() && R.getHeight()>=W.GetHeight() && !found)
+				 //Display Label
+				 if(Label)
 				 {
-					 found = true;
-					 g.setColor(Color.blue);
-					 g.fillRect((int)(R.getX()-InnerPanel.kerfThickness), (int)(R.getY()-InnerPanel.kerfThickness+oldY),(int)(W.GetWidth() + ( 2*InnerPanel.kerfThickness)),(int)(W.GetHeight()+(2*InnerPanel.kerfThickness)));
-					 g.setColor(Color.green);
-					 //DrawRect.add(new Rectangle((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight()));
-					 Rectangle Name = new Rectangle((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight());
-					 g.fillRect((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight());
-					
-					 UsedArea += Name.width * Name.height;
-					   
-					 //Display Label
-					 if(Label)
-					 {
-					 g.setColor(Color.black);
-					 g.setFont(new Font("Helvetica",Font.BOLD,10));
-					 int PW = fontMetrics.stringWidth(W.GetName());
-					 g.drawString(W.GetName(), (int)(Name.getCenterX() - (int)(PW/2)), (int)(Name.getCenterY() +(int)(InnerPanel.kerfThickness/2)));
-					 }
-					 if (Measure)
-					 {
-						int Wid = fontMetrics.stringWidth(String.valueOf(W.GetWidth()));
-						int Hit = fontMetrics.stringWidth(String.valueOf(W.GetHeight())); 
-						 g.setColor(Color.BLACK);
-						 g.setFont(new Font("Helvetica",Font.BOLD,10));
-						 int PW = fontMetrics.stringWidth(W.GetName());
-						 
-						g.drawString(String.valueOf(W.GetWidth()), (int)(Name.getCenterX() - (int)(Wid /2)), (int)(Name.getCenterY()+ (W.GetHeight()/2)));
-						
-	                    // Calculate the center of the panel
-	                    int centerX = (int)(Name.getCenterX() - (int)(PW/2));
-	                    int centerY = (int)(Name.getCenterY() +(int)(InnerPanel.kerfThickness/2));
-	                    
-
-
-	                    // Rotate the text by -90 degrees at the calculated position
-	                    AffineTransform oldTransform = g2d.getTransform();
-	                    g2d.translate(centerX, centerY);
-	                    g2d.rotate(-Math.PI / 2);
-	                    g2d.drawString(String.valueOf(W.GetHeight()), -(int)((Hit/2)- g.getFont().getSize()/4), (int)(Hit*3) + g.getFont().getSize()/4);
-
-	                    // Reset the transformation
-	                    g2d.setTransform(oldTransform);
-	                    
-						
-						
-					 }
-					   
-					 oldY+=(int)(W.GetHeight()+ InnerPanel.kerfThickness);
-					 block = DrawRect.indexOf(R);
+				 g.setColor(Color.black);
+				 g.setFont(new Font("Helvetica",Font.BOLD,10));
+				 int PW = fontMetrics.stringWidth(w.GetName());
+				 g.drawString(w.GetName(), (int)(Name.getCenterX() - (int)(PW/2)), (int)(Name.getCenterY() +(int)(InnerPanel.kerfThickness/2)));
 				 }
-			 }
-			 
-			if(found)
-				DrawRect.remove(block);
-		 }
+				 if (Measure)
+				 { 
+					 g.setColor(Color.BLACK);
+					 g.setFont(new Font("Helvetica",Font.BOLD,10));
+					 int PW = fontMetrics.stringWidth(String.valueOf(Buttons.BLT.format(w.GetWidth())));
+					 
+					g.drawString(String.valueOf(Buttons.BLT.format(w.GetWidth())), (int)(Name.getCenterX() - (int)(PW/2)), (int)(Name.getCenterY()+ (w.GetHeight()/2)));
+					
+                    // Calculate the center of the panel
+					int centerX = (int)Name.getWidth()/2;
+					int centerY = (int)Name.getHeight()/2;
+					
+					int PW1 = fontMetrics.stringWidth(String.valueOf(Buttons.BLT.format(w.GetHeight())));
+					int PW2 = fontMetrics.getHeight();
+					
+					int textX = (int)(centerX + PW1*2);
+					int textY = (int)(centerY + PW2*2);
+				
+
+                    // Rotate the text by -90 degrees at the calculated position
+                    AffineTransform oldTransform = g2d.getTransform();
+                   // g2d.translate(centerX, centerY);
+                    g2d.rotate(Math.toRadians(-90),textX , textY);
+                    g2d.drawString(String.valueOf(Buttons.BLT.format(w.GetHeight())),textX,textY);
+
+                    // Reset the transformation
+                    g2d.setTransform(oldTransform);
+                    
+				 }  
+				
+				
+				
+				
+				minY += InnerPanel.kerfThickness+w.GetWidth();
+				skip[t] = true;
+			}
+			
+			
+			
+			if(MaxY<=minY || minY+w.GetHeight()>=MaxY)
+			{
+				if(tempMinx==0)
+					t=Pieces.size();
+				
+				//System.out.println("\n Piece Can no longer fit down. Shifting over: "+ tempMinx + "\n");
+				minY = 0;
+				minX+=tempMinx;
+				tempMinx=0;
+			}
+				
+			}		
+		}
+		if(used)
+			RemBoard++;
+		
+	}
+	
+	//End of alg	 
 		 
-	RemBoard = DrawRect.size();	 
 	
 	}
 	
 	
-	public static void CutListAlgorithm(String name) throws IOException{
+	public static void CutListAlgorithm(String name) throws IOException, EncryptedDocumentException, InvalidFormatException{
 		CutList.main(name);
 		List = CutList.GetWood();			
 		CreateTable(List);
@@ -307,15 +282,16 @@ public class Algorithm {
         	Wood w = Boards.get(x);
         	w.SetHeight(w.GetHeight()*scale);
         	w.SetWidth(w.GetWidth()*scale);
-        	x+=w.GetAmount();
+        	x+=w.GetAmount()-1;
         }
         for(int x = 0 ; x < Pieces.size(); x++)
         {
         	Wood w = Pieces.get(x);
         	w.SetHeight(w.GetHeight()*scale);
         	w.SetWidth(w.GetWidth()*scale);
-        	x+=w.GetAmount();
-        }
+        	x+=w.GetAmount()-1;
+        } 
+
         ty.repaint();
     }
 
@@ -325,15 +301,16 @@ public class Algorithm {
         	Wood w = Boards.get(x);
         	w.SetHeight(w.GetHeight()*scale);
         	w.SetWidth(w.GetWidth()*scale);
-        	x+=w.GetAmount();
+        	x+=w.GetAmount()-1;
         }
         for(int x = 0 ; x < Pieces.size(); x++)
         {
         	Wood w = Pieces.get(x);
         	w.SetHeight(w.GetHeight()*scale);
         	w.SetWidth(w.GetWidth()*scale);
-        	x+=w.GetAmount();
+        	x+=w.GetAmount()-1;
         }
+       
         ty.repaint();
     }
 

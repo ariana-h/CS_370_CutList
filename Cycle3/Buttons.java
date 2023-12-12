@@ -14,6 +14,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+
 
 public class Buttons {
 	static String kerfThicknessText;
@@ -26,8 +29,28 @@ public class Buttons {
 	        JMenuItem item1 = new JMenuItem("Open new file");
 	        JMenuItem item2 = new JMenuItem("Add file to project");
 	        
-	        item1.addActionListener(e -> openFile(fileContentTextArea));
-	        item2.addActionListener(e -> AddFile(fileContentTextArea));
+	        item1.addActionListener(e -> {
+				try {
+					openFile(fileContentTextArea);
+				} catch (EncryptedDocumentException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				} catch (InvalidFormatException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+			});
+	        item2.addActionListener(e -> {
+				try {
+					AddFile(fileContentTextArea);
+				} catch (EncryptedDocumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InvalidFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			});
 	        
 	        popupMenu.add(item1);
 	        popupMenu.add(item2);
@@ -43,7 +66,7 @@ public class Buttons {
 	
 	
 	
-	public static void openFile(JTextArea fileContentTextArea){
+	public static void openFile(JTextArea fileContentTextArea) throws EncryptedDocumentException, InvalidFormatException{
     	FileRead = false;
     	Algorithm.FileRead = false;
     	Algorithm.Boards.clear();
@@ -74,7 +97,7 @@ public class Buttons {
     }
 	
 	
-	public static void AddFile(JTextArea fileContentTextArea) {
+	public static void AddFile(JTextArea fileContentTextArea) throws EncryptedDocumentException, InvalidFormatException {
 		if(Algorithm.FileRead)
 		{	
 		JFileChooser fileChooser = new JFileChooser();

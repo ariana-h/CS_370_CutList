@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 public class DrawAlg {
 	static int k = 0;
 	static boolean lock =false;
+	@SuppressWarnings("serial")
 	public static void dalg(ArrayList<Wood> Board, ArrayList<CoordMaker> colist) {
 		
 		do {

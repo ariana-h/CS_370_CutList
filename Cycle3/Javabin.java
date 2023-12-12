@@ -1,17 +1,4 @@
 import java.util.ArrayList;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 public class Javabin {
             
@@ -32,7 +19,7 @@ public class Javabin {
 	
 	        
     // separates the list into the "cuts" and board   
-	        int d=0, val = 0;
+	        int d=0;
 	        
 	        for (i = 0; i< inhere.size(); i++) {
 	        	
@@ -138,7 +125,7 @@ public class Javabin {
 	        					 // checks if the  unplaced piece is colliding with any already placed piece
 	        						do {
 	        							System.out.println("current piece: " + pieces.get(count).GetName());
-	        							int drop=0;
+	        							
 	        							for(CoordMaker lol : placement) {
 	        								int fullx= (int) (lol.getXsize() + lol.getX() + InnerPanel.kerfThickness);
 	        								int backx =  (int) (lol.getX() - InnerPanel.kerfThickness);
@@ -164,7 +151,7 @@ public class Javabin {
 	        								q++;
 	        								
 	        								temp++; //NOTE THIS IS THE PROBLEM IT'S NEEDED TO CONTROL THE AMOUNT OF PIECES BUT ALSO STOPS THE PIECES BEFORE A DROP CAN OCCUR!!!!!
-	        								drop++;
+	        								
 	        								System.out.println("q value " +q); 
 	        							}
 	        								if (pieces.get(count).GetWidth() + x > board.get(plank).GetWidth()) { // if the new placement goes outside the side border move down 1
