@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,13 +10,18 @@ public class Algorithm {
 	static ArrayList<Wood> Boards  = new ArrayList<Wood>();
 	static ArrayList<Wood> Pieces  = new ArrayList<Wood>();
 	static boolean grid , Label , Measure, calc, FileRead = false;
-	 static ArrayList<CoordMaker> colist = new ArrayList<CoordMaker>();
-	static JPanel ty = new JPanel();
-
+	static JPanel ty;
+	
 	public static int UsedArea , TotalArea;
+	public static int TotBoard , RemBoard;
 	public static ArrayList<Wood> List;
 	
-	public static void DrawAlg(){ // main drawing events
+	//Haydens Alg
+	static ArrayList<CoordMaker> colist = new ArrayList<CoordMaker>();
+	public static double scale = 1.0;
+	
+	
+	public static void DrawAlg(){
 
 		MiddlePanel.panelMiddle.removeAll();
 		 ty = new JPanel(){
@@ -25,19 +31,47 @@ public class Algorithm {
  			  g.setColor(Color.LIGHT_GRAY);
  			  g.fillRect(0,0,this.getWidth(),this.getHeight());
  			  
- 			  if(grid)
- 			  {
- 			  Grid(g);
- 			  }
- 			  Canvas(g);
  			  
+ 			  //Hayden alg 
+ 			  
+ 		/*		 System.out.println(colist.size());
+ 				 for(CoordMaker cm : colist) 
+ 				 {
+ 					 cm.Debug();
+ 					 System.out.println();
+ 				 } 
+ 			*/	 
+ 				 Canvas(g);
+
  			  if(calc)
- 			  {
- 				 
+ 			  { 
  				 colist =Javabin.alg(List);
- 				
+ 				 ArrayList<String> basename = new ArrayList<String>();
+ 				 for(CoordMaker lol : colist) {
+ 					 if(basename.contains(lol.getBase())){
+ 					 }
+ 					 else {
+ 					 basename.add(lol.getBase());
+ 					 }
+ 				 }
+ 				  int use;
+ 				 for(int d=0; d< basename.size(); d++ )
+				   {
+					 use = 0;
+				for(int p = 0; p< colist.size(); p++) {
+					if(colist.get(p).getBase() == basename.get(d) ) {
+						use++;
+						UsedArea += colist.get(p).getXsize() * colist.get(p).getYsize();
+					}
+				
+				}
+				if(use >0) {
+					   RemBoard++;
+				   }
+			 }
+ 			 InnerPanel.UsedStock.setText("Total Used Stock: " + (TotBoard-RemBoard) + "/" + TotBoard);
  			 InnerPanel.UsedArea.setText("Total Used Area: "+ UsedArea + " / " + (int)((((double)(UsedArea)/TotalArea))*100)+"%" );
- 		  	 InnerPanel.WastedArea.setText("Total Wasted Area: "+ (TotalArea - UsedArea)+ " / " + (int)((((double)(TotalArea-UsedArea)/TotalArea))*100)+"%");
+ 		  	 InnerPanel.WastedArea.setText("Total Wasted Area: "+(TotalArea - UsedArea)+ " / " + (int)((((double)(TotalArea-UsedArea)/TotalArea))*100)+"%");
  		  	 calc = false;
  			  }
  		   }   
@@ -46,22 +80,21 @@ public class Algorithm {
  	  TotalArea=UsedArea = 0;
 	}
 	
-	public static void Grid(Graphics g)
-	{
-		g.setColor(Color.BLACK);
-		 for(int x = 1; x<(int)(MiddlePanel.panelMiddle.getWidth()/10)+1 ; x++){
-			 g.drawLine(0,(int)(10*x),MiddlePanel.panelMiddle.getWidth(),(int)(10*x));
-			 g.drawLine((int)(InnerPanel.kerfThickness*x),0,(int)(10*x),MiddlePanel.panelMiddle.getHeight());
-		 }	
-	}
-	
 	public static void Canvas(Graphics g){
+		
+		if(grid)
+		{
+			g.setColor(Color.BLACK);
+			 for(int x = 1; x<(int)(MiddlePanel.panelMiddle.getWidth()/10)+1 ; x++){
+				 g.drawLine(0,(int)(10*x),MiddlePanel.panelMiddle.getWidth(),(int)(10*x));
+				 g.drawLine((int)(10*x),0,(int)(10*x),MiddlePanel.panelMiddle.getHeight());
+			 }
+		}
+		
 		FontMetrics fontMetrics = g.getFontMetrics(g.getFont());
 		 Graphics2D g2d = (Graphics2D) g;
 		 
 		 g2d.setStroke(new BasicStroke(1)); 
-		 
-		 
 		 
 		 
 		 int oldY = 0;
@@ -88,29 +121,43 @@ public class Algorithm {
 			 oldY+=(int)(W.GetHeight()+ InnerPanel.kerfThickness);
 		 }
 		 
+		
+ ArrayList<String> basenames = new ArrayList<String>();
+		 
+		 for(CoordMaker lol : colist) {
+			 if(basenames.contains(lol.getBase())){
+			 }
+			 else {
+			 basenames.add(lol.getBase());
+			 }
+		 }
 		   int r = 0;
 		   int pasty=0;
-		   do{
+		   
+		   for(int k=0; k< basenames.size(); k++ )
+		   {
+			  
 		   for(int j=0; j< colist.size(); j++) {
-			   if(colist.get(j).getBase() == Boards.get(r).GetName() ) {
+			   
+			   if(colist.get(j).getBase() == basenames.get(k) ) {
 				   g.setColor(Color.blue);
-				   g.fillRect(colist.get(j).getX() -(int) InnerPanel.kerfThickness, colist.get(j).getY() + pasty +(int) InnerPanel.kerfThickness, colist.get(j).getXsize() +(int) InnerPanel.kerfThickness +(int) InnerPanel.kerfThickness, colist.get(j).getYsize()+ (int) InnerPanel.kerfThickness +pasty);
+				   g.fillRect(colist.get(j).getX() -(int) InnerPanel.kerfThickness, colist.get(j).getY() + pasty -(int) InnerPanel.kerfThickness, colist.get(j).getXsize() +(int) InnerPanel.kerfThickness*2, colist.get(j).getYsize()+ (int) InnerPanel.kerfThickness +(int) InnerPanel.kerfThickness);
 				   g.setColor(Color.CYAN);
-				   g.fillRect(colist.get(j).getX(), colist.get(j).getY()+pasty +(int) InnerPanel.kerfThickness, colist.get(j).getXsize(), colist.get(j).getYsize() +pasty);
+				   g.fillRect(colist.get(j).getX(), colist.get(j).getY()+pasty, colist.get(j).getXsize(), colist.get(j).getYsize());
 				   
-				   
+				  
 			   }
 			   
 		   }
-		   pasty= (int) (pasty+Boards.get(r).GetHeight() +InnerPanel.kerfThickness);
+		   
+		   
+		   pasty= (int) (pasty+Boards.get(r).GetHeight() +InnerPanel.kerfThickness );
 		   r++;
-		   }while(r < Boards.size());
+		   }
 		 
 		 
 		 
-		 
-		 
-		 
+		 TotBoard = DrawRect.size();		 
 		 boolean found = false;
 		 int block;
 		 for(Wood W : Pieces){
@@ -121,14 +168,11 @@ public class Algorithm {
 				 if(R.getWidth() >= W.GetWidth() && R.getHeight()>=W.GetHeight() && !found)
 				 {
 					 found = true;
-					// g.setColor(Color.blue);
-					// g.fillRect((int)(R.getX()-InnerPanel.kerfThickness), (int)(R.getY()-InnerPanel.kerfThickness+oldY),(int)(W.GetWidth() + ( 2*InnerPanel.kerfThickness)),(int)(W.GetHeight()+(2*InnerPanel.kerfThickness)));
-					 //g.setColor(Color.green);
-					 //DrawRect.add(new Rectangle((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight()));
-					 Rectangle Name = new Rectangle((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight());
-					 //g.fillRect((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight());
 					
-					 UsedArea += Name.width * Name.height;
+					 Rectangle Name = new Rectangle((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight());
+					
+					
+					
 					   
 					 //Display Label
 					 if(Label)
@@ -176,6 +220,8 @@ public class Algorithm {
 				DrawRect.remove(block);
 		 }
 		 
+	RemBoard = DrawRect.size();	 
+	
 	}
 	
 	
@@ -215,7 +261,7 @@ public class Algorithm {
 	
         for(Wood W : List){
 			if(W.GetWoodtype().equals("Piece")){
-				//System.out.println("Piece found"); 
+				//System.out.println("Piece found"); `
 		        JTextArea label= new JTextArea(W.GetHeight()/10+"");
 		        label.setEditable(false);
 		        InnerPanel.innerPanel.add(label);
@@ -228,9 +274,11 @@ public class Algorithm {
 		        label= new JTextArea(W.GetName()+"");
 		        label.setEditable(false);
 		        InnerPanel.innerPanel.add(label);
-		        for(int x = 1; x<= W.GetAmount(); x++){
-		        	Pieces.add(W);
-		        }
+		        int loop = W.GetAmount();
+	        	for(int x = 1; x<= loop; x++)
+	        	{
+	        		Pieces.add(W);
+	        	}
 			}
 			else{
 				//System.out.println("Wood found"); 
@@ -246,11 +294,50 @@ public class Algorithm {
 	        	label= new JTextArea(W.GetName()+"");
 	        	label.setEditable(false);
 	        	InnerPanel.innerSheetsPanel.add(label);
-	        	for(int x = 1; x<= W.GetAmount(); x++)
+	        	int loop = W.GetAmount();
+	        	for(int x = 1; x<= loop; x++)
 	        	{
 	        		Boards.add(W);
 	        	}
 			}
 		}  
 	}
+	
+	public static void zoomIn() {
+        scale *= 1.02;
+        for(int x = 0 ; x < Boards.size(); x++)
+        {
+        	Wood w = Boards.get(x);
+        	w.SetHeight(w.GetHeight()*scale);
+        	w.SetWidth(w.GetWidth()*scale);
+        	x+=w.GetAmount();
+        }
+        for(int x = 0 ; x < Pieces.size(); x++)
+        {
+        	Wood w = Pieces.get(x);
+        	w.SetHeight(w.GetHeight()*scale);
+        	w.SetWidth(w.GetWidth()*scale);
+        	x+=w.GetAmount();
+        }
+        ty.repaint();
+    }
+
+    public static void zoomOut() {
+        for(int x = 0 ; x < Boards.size(); x++)
+        {
+        	Wood w = Boards.get(x);
+        	w.SetHeight(w.GetHeight()*scale);
+        	w.SetWidth(w.GetWidth()*scale);
+        	x+=w.GetAmount();
+        }
+        for(int x = 0 ; x < Pieces.size(); x++)
+        {
+        	Wood w = Pieces.get(x);
+        	w.SetHeight(w.GetHeight()*scale);
+        	w.SetWidth(w.GetWidth()*scale);
+        	x+=w.GetAmount();
+        }
+        ty.repaint();
+    }
+
 }

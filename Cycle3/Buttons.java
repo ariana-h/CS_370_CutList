@@ -48,6 +48,8 @@ public class Buttons {
     	Algorithm.FileRead = false;
     	Algorithm.Boards.clear();
     	Algorithm.Pieces.clear();
+    	Algorithm.scale = 1;
+		if(Algorithm.ty!=null) 
     	Algorithm.ty.repaint();
     	
         JFileChooser fileChooser = new JFileChooser();
@@ -61,6 +63,8 @@ public class Buttons {
         		InnerPanel.innerPanel.removeAll(); 
         		InnerPanel.innerSheetsPanel.removeAll();
             	Algorithm.CutListAlgorithm(selectedFile.getAbsolutePath());
+            	//Algorithm.colist =Javabin.alg(Algorithm.List);
+       			//Algorithm.colist.remove(0);
             	FileRead = true;
             	Algorithm.FileRead = true;
             } catch (IOException e) {

@@ -45,9 +45,9 @@ public class Javabin {
 		        	bw= inhere.get(i).GetWidth();
 		        	for(int z= 0; z< inhere.get(i).GetAmount(); z++) {
 		        	Wood run = new Wood(inhere.get(i).GetWoodtype(), inhere.get(i).GetGrain(), bh,  bw, inhere.get(i).GetAmount(), "Sheet " + d);
-		        	
+		        	d++;
 	        		board.add(run); //populates the board list
-	        		d++;
+	        		
 		        	}
 	        	}
 	        	else {
@@ -75,13 +75,19 @@ public class Javabin {
 	        boolean firsttime = true;
 	        boolean notpos = false;
 	        boolean placed = false;
+	        boolean cantplace = false;
 	        
 	       
 	         // runs sorting
 	        
-	        do { // will run through all pieces NOTE SAME LOGIC ERROR AS THE MULTI BOARD I THINK, SOMETHING TO DO WITH IT GOING TO BOTH BOARDS
+	        do { // will run through all pieces 
 	        	
 	        	do { //will run through each stock sheet
+	        		
+	        		totArea=0;
+		        	remaing = 0;
+	        		firsttime = true;
+	        		
 	        		int traker=0;
 	        		System.out.println(traker);
 	        		boardArea = (int)board.get(plank).GetHeight() * (int)board.get(plank).GetWidth();
@@ -100,7 +106,7 @@ public class Javabin {
 	        				
 	        				if(colist.get(i).getBase().equals(board.get(plank).GetName())  ) 
 	        				{
-	        					pieceArea = (int)colist.get(i).getXsize() * (int)colist.get(i).getYsize();
+	        					pieceArea = (int)(colist.get(i).getXsize()+ InnerPanel.kerfThickness) * (int)(colist.get(i).getYsize()+ InnerPanel.kerfThickness);
 	        					totArea= totArea + pieceArea;
 	        					
 	        				}
@@ -111,13 +117,13 @@ public class Javabin {
 	        				remaing = boardArea - totArea;
 	        				
 	        				
-	        				if( remaing >0 && pieceArea <= remaing) { //sees if there is space left on board and if the current piece will fit
-	        					
+	        				if( remaing >0 && pieceArea <= remaing && pieces.get(count).GetWidth() <= board.get(plank).GetWidth() && pieces.get(count).GetHeight() <= board.get(plank).GetHeight() ) { //sees if there is space left on board and if the current piece will fit
+	        					isSpace = true;
 	        					ArrayList<CoordMaker> placement = new ArrayList<CoordMaker>(); 
 	        					
 	        					
 	        					
-	        					if(firsttime == true ) // NOTE THIS ALWAYS RUNS
+	        					if(firsttime == true ) 
 	        					{ //if there has been no pieces placed make the first one 0,0
 	        						x= 0;
 	        						y=0;
@@ -144,15 +150,17 @@ public class Javabin {
 	        							int drop=0;
 	        							for(CoordMaker lol : placement) {
 	        								int fullx= (int) (lol.getXsize() + lol.getX() + InnerPanel.kerfThickness);
-	        								int backx =  (int) (lol.getX() - InnerPanel.kerfThickness);
-	        								int fully = (int) (lol.getY()+ lol.getYsize() + InnerPanel.kerfThickness);
-	        								int backy = (int) (lol.getY()- InnerPanel.kerfThickness);
 	        								
-	        								if(x < fullx &&  y < fully ) { //NOTE : ADD THE OVERHANG CHECK
+	        								int fully = (int) (lol.getY()+ lol.getYsize() + InnerPanel.kerfThickness);
+	        								
+	        								
+	        								if(x < fullx  && y < fully ) { 
 	        									canplace = false;
+	        									placed= false;
 	        									
 	        								}
 	        								else {
+	        									System.out.println("not the last thing right");
 	        									canplace = true;
 	        									placed = true;
 	        								}
@@ -168,7 +176,7 @@ public class Javabin {
 	        								
 	        								q++;
 	        								
-	        								temp++; //NOTE THIS IS THE PROBLEM IT'S NEEDED TO CONTROL THE AMOUNT OF PIECES BUT ALSO STOPS THE PIECES BEFORE A DROP CAN OCCUR!!!!!
+	        								
 	        								drop++;
 	        								System.out.println("q value " +q); 
 	        							}
@@ -186,8 +194,7 @@ public class Javabin {
 	        							if (y+ pieces.get(count).GetHeight() > board.get(plank).GetHeight()) {
 	        								
         									notpos = true;
-        									int test = (int) (y+ pieces.get(count).GetHeight());
-        									System.out.println(test +" " + board.get(plank).GetHeight() +" " + notpos + " " + plank);
+        									
         								}
         								if(q > placement.size()&& placed == false) {
         									notpos = true;
@@ -199,7 +206,8 @@ public class Javabin {
 	        							}while (canplace == false && notpos == false);
 	        						q=0;
 	        						if(notpos == true && y+ pieces.get(count).GetHeight() > board.get(plank).GetHeight() ) {
-	        						
+	        							
+	        						plank++;
 	        						}
 	        						if (canplace == true){
 	        							CoordMaker cut = new CoordMaker(pieces.get(count).GetName(),  board.get(plank).GetName(), x, y, (int) pieces.get(count).GetWidth(),(int) pieces.get(count).GetHeight() );
@@ -219,9 +227,12 @@ public class Javabin {
 	        				}
 	        			
 	        		
-	        		if(isSpace == false || notpos == true) {
+	        		if(isSpace == false) {
 	        			plank++;
 	        		}
+	        		
+	        		
+	        		
 	        		
 	        	}while(plank < board.size() && placed == false);
 	        	System.out.println(colist.size());

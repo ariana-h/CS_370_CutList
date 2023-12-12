@@ -37,12 +37,24 @@ public class Wood {
 		return Height;
 	}
 	
+	public void SetHeight(double d) {
+		this.Height = d;
+	}
+	
 	public double GetWidth() {
 		return Width;
 	}
 	
+	public void SetWidth(double d) {
+		this.Width = d;
+	}
+	
 	public int GetAmount() {
 		return Amount;
+	}
+	public void SetAmount(int i)
+	{
+		this.Amount = i;
 	}
 	
 	public String GetName() {
