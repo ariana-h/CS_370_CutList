@@ -32,12 +32,11 @@ public class Algorithm {
  			  g.fillRect(0,0,this.getWidth(),this.getHeight());
  			  
  			  
-
+ 			 
  				 Canvas(g);
 
  			  if(calc)
  			  { 
-
  				 colist =Javabin.alg(List);
  				 ArrayList<String> basename = new ArrayList<String>();
  				 for(CoordMaker lol : colist) {
@@ -62,7 +61,6 @@ public class Algorithm {
 					   RemBoard++;
 				   }
 			 }
-
  			 InnerPanel.UsedStock.setText("Total Used Stock: " + (TotBoard-RemBoard) + "/" + TotBoard);
  			 InnerPanel.UsedArea.setText("Total Used Area: "+ UsedArea + " / " + (int)((((double)(UsedArea)/TotalArea))*100)+"%" );
  		  	 InnerPanel.WastedArea.setText("Total Wasted Area: "+(TotalArea - UsedArea)+ " / " + (int)((((double)(TotalArea-UsedArea)/TotalArea))*100)+"%");
@@ -115,23 +113,21 @@ public class Algorithm {
 			 oldY+=(int)(W.GetHeight()+ InnerPanel.kerfThickness);
 		 }
 		 
-
 		
  ArrayList<String> basenames = new ArrayList<String>();
 		 
-		 for(CoordMaker lol : colist) {
-			 if(basenames.contains(lol.getBase())){
-			 }
-			 else {
-			 basenames.add(lol.getBase());
-			 }
+		 for(int q = 0; q <Javabin.board.size(); q++) {
+			 
+			 basenames.add(Javabin.board.get(q).GetName());
+			 
+			 
 		 }
 		   int r = 0;
 		   int pasty=0;
-		   
+		   boolean force = true;
 		   for(int k=0; k< basenames.size(); k++ )
 		   {
-			  
+			   
 		   for(int j=0; j< colist.size(); j++) {
 			   
 			   if(colist.get(j).getBase() == basenames.get(k) ) {
@@ -147,9 +143,8 @@ public class Algorithm {
 		   
 		   
 		   pasty= (int) (pasty+Boards.get(r).GetHeight() +InnerPanel.kerfThickness );
-		   r++;
+		  r++;
 		   }
-
 		 
 		 
 		 
@@ -257,7 +252,7 @@ public class Algorithm {
 	
         for(Wood W : List){
 			if(W.GetWoodtype().equals("Piece")){
-
+				
 		        JTextArea label= new JTextArea(W.GetHeight()/10+"");
 		        label.setEditable(false);
 		        InnerPanel.innerPanel.add(label);
@@ -336,6 +331,4 @@ public class Algorithm {
         ty.repaint();
     }
 
-
 }
-
