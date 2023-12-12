@@ -209,7 +209,7 @@ public class Javabin {
 	        							
 	        						plank++;
 	        						}
-	        						if (canplace == true){
+	        						else if (canplace == true){
 	        							CoordMaker cut = new CoordMaker(pieces.get(count).GetName(),  board.get(plank).GetName(), x, y, (int) pieces.get(count).GetWidth(),(int) pieces.get(count).GetHeight() );
 	        							colist.add(cut);
 	        							
