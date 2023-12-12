@@ -70,6 +70,7 @@ public class CoordMaker {
 	public void setYsize(int ysize) {
 		this.ysize = ysize;
 	}
+
 	public void Debug()
     {
         System.out.println("name: " +piece);
@@ -80,5 +81,6 @@ public class CoordMaker {
         System.out.println("Ysize: "+ysize);
 
     }
+
 
 }
