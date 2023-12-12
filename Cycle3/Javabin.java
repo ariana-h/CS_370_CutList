@@ -89,7 +89,7 @@ public class Javabin {
 	        		firsttime = true;
 	        		
 	        		int traker=0;
-	        		System.out.println(traker);
+	        		
 	        		boardArea = (int)board.get(plank).GetHeight() * (int)board.get(plank).GetWidth();
 	        		for (CoordMaker col : colist) {
 	        			if (col.getBase().equals(board.get(plank).GetName()) ) {
@@ -131,7 +131,7 @@ public class Javabin {
 	        						CoordMaker cut = new CoordMaker(pieces.get(count).GetName(),  board.get(plank).GetName(), x, y, (int) pieces.get(count).GetWidth(),(int) pieces.get(count).GetHeight() );
 	        						colist.add(cut);
         							placed = true;
-        							System.out.println("first piece in " + board.get(plank).GetName() +cut.getPiece() );
+        							
         							
 	        					}
 	        					else if (firsttime ==false) { //after the first piece we now move to the actual algorithm
@@ -160,7 +160,7 @@ public class Javabin {
 	        									
 	        								}
 	        								else {
-	        									System.out.println("not the last thing right");
+	        									
 	        									canplace = true;
 	        									placed = true;
 	        								}
@@ -178,7 +178,7 @@ public class Javabin {
 	        								
 	        								
 	        								drop++;
-	        								System.out.println("q value " +q); 
+	        								
 	        							}
 	        								if (pieces.get(count).GetWidth() + x > board.get(plank).GetWidth()) { // if the new placement goes outside the side border move down 1
 	        									
@@ -186,7 +186,7 @@ public class Javabin {
 	        								y= y+1;
 	        								x=0;
 	        								q=0;
-	        								System.out.println("q is reset " +q);
+	        								
 	        								
 	        								
 
@@ -235,7 +235,7 @@ public class Javabin {
 	        		
 	        		
 	        	}while(plank < board.size() && placed == false);
-	        	System.out.println(colist.size());
+	        	
 	        	count++;
 	        	plank=0;
 	        	totArea=0;

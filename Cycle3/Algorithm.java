@@ -32,15 +32,7 @@ public class Algorithm {
  			  g.fillRect(0,0,this.getWidth(),this.getHeight());
  			  
  			  
- 			  //Hayden alg 
- 			  
- 		/*		 System.out.println(colist.size());
- 				 for(CoordMaker cm : colist) 
- 				 {
- 					 cm.Debug();
- 					 System.out.println();
- 				 } 
- 			*/	 
+ 			 
  				 Canvas(g);
 
  			  if(calc)
@@ -261,7 +253,7 @@ public class Algorithm {
 	
         for(Wood W : List){
 			if(W.GetWoodtype().equals("Piece")){
-				//System.out.println("Piece found"); `
+				
 		        JTextArea label= new JTextArea(W.GetHeight()/10+"");
 		        label.setEditable(false);
 		        InnerPanel.innerPanel.add(label);
@@ -281,7 +273,7 @@ public class Algorithm {
 	        	}
 			}
 			else{
-				//System.out.println("Wood found"); 
+				
 	        	JTextArea label= new JTextArea(W.GetHeight()/10+"");
 	        	label.setEditable(false);
 	        	InnerPanel.innerSheetsPanel.add(label);
