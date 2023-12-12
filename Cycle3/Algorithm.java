@@ -32,19 +32,37 @@ public class Algorithm {
  			  g.fillRect(0,0,this.getWidth(),this.getHeight());
  			  
  			  
- 			  //Hayden alg 
- 			  
- 		/*		 System.out.println(colist.size());
- 				 for(CoordMaker cm : colist) 
- 				 {
- 					 cm.Debug();
- 					 System.out.println();
- 				 } 
- 			*/	 
+
  				 Canvas(g);
 
  			  if(calc)
  			  { 
+
+ 				 colist =Javabin.alg(List);
+ 				 ArrayList<String> basename = new ArrayList<String>();
+ 				 for(CoordMaker lol : colist) {
+ 					 if(basename.contains(lol.getBase())){
+ 					 }
+ 					 else {
+ 					 basename.add(lol.getBase());
+ 					 }
+ 				 }
+ 				  int use;
+ 				 for(int d=0; d< basename.size(); d++ )
+				   {
+					 use = 0;
+				for(int p = 0; p< colist.size(); p++) {
+					if(colist.get(p).getBase() == basename.get(d) ) {
+						use++;
+						UsedArea += colist.get(p).getXsize() * colist.get(p).getYsize();
+					}
+				
+				}
+				if(use >0) {
+					   RemBoard++;
+				   }
+			 }
+
  			 InnerPanel.UsedStock.setText("Total Used Stock: " + (TotBoard-RemBoard) + "/" + TotBoard);
  			 InnerPanel.UsedArea.setText("Total Used Area: "+ UsedArea + " / " + (int)((((double)(UsedArea)/TotalArea))*100)+"%" );
  		  	 InnerPanel.WastedArea.setText("Total Wasted Area: "+(TotalArea - UsedArea)+ " / " + (int)((((double)(TotalArea-UsedArea)/TotalArea))*100)+"%");
@@ -97,57 +115,41 @@ public class Algorithm {
 			 oldY+=(int)(W.GetHeight()+ InnerPanel.kerfThickness);
 		 }
 		 
-		 //Hayden Alg
-/*		 System.out.println(colist.size());
-		  boolean[] skip = new boolean[colist.size()];
-		 for(int i = 0; i< skip.length ; i++)
-			 		skip[i] = false;
-		 
-		 
-		 ArrayList<String> basenames = new ArrayList<String>();
 
-         for(CoordMaker lol : colist) {
-             if(basenames.contains(lol.getBase())){
-             }
-             else {
-             basenames.add(lol.getBase());
-             }
-         }
+		
+ ArrayList<String> basenames = new ArrayList<String>();
 		 
-		 
-		 
+		 for(CoordMaker lol : colist) {
+			 if(basenames.contains(lol.getBase())){
+			 }
+			 else {
+			 basenames.add(lol.getBase());
+			 }
+		 }
 		   int r = 0;
-		   int pasty=0;		   
+		   int pasty=0;
 		   
-		   
-		   for(String c : basenames)
+		   for(int k=0; k< basenames.size(); k++ )
 		   {
-			  for(int j=0; j< colist.size(); j++) { 
-			   if(colist.get(j).getBase() == basenames.get(r) && !skip[j]) {
+			  
+		   for(int j=0; j< colist.size(); j++) {
+			   
+			   if(colist.get(j).getBase() == basenames.get(k) ) {
 				   g.setColor(Color.blue);
-				   g.fillRect((int)(colist.get(j).getX()-InnerPanel.kerfThickness), (int)(colist.get(j).getY()-InnerPanel.kerfThickness+pasty),
-						   (int)(colist.get(j).getXsize() + ( 2*InnerPanel.kerfThickness)),(int)(colist.get(j).getYsize()+(2*InnerPanel.kerfThickness)));
-				/*   System.out.println("X Start: " + (int)(colist.get(j).getX()-InnerPanel.kerfThickness));
-				   System.out.println("Y Start: " + (int)(colist.get(j).getY()-InnerPanel.kerfThickness+pasty));
-				   System.out.println("X Strech: " + (int)(colist.get(j).getXsize() + ( 2*InnerPanel.kerfThickness)));
-				   System.out.println("X Strech: " + (int)(colist.get(j).getYsize()+(2*InnerPanel.kerfThickness)));
-				   System.out.println(); 
-				   
-				   
+				   g.fillRect(colist.get(j).getX() -(int) InnerPanel.kerfThickness, colist.get(j).getY() + pasty -(int) InnerPanel.kerfThickness, colist.get(j).getXsize() +(int) InnerPanel.kerfThickness*2, colist.get(j).getYsize()+ (int) InnerPanel.kerfThickness +(int) InnerPanel.kerfThickness);
 				   g.setColor(Color.CYAN);
-				   g.fillRect(colist.get(j).getX(), colist.get(j).getY() +pasty,colist.get(j).getXsize(), colist.get(j).getYsize());
-				   skip[j]=true;
+				   g.fillRect(colist.get(j).getX(), colist.get(j).getY()+pasty, colist.get(j).getXsize(), colist.get(j).getYsize());
+				   
+				  
 			   }
 			   
 		   }
-		   pasty= (int) (pasty+Boards.get(r).GetHeight() +InnerPanel.kerfThickness);
+		   
+		   
+		   pasty= (int) (pasty+Boards.get(r).GetHeight() +InnerPanel.kerfThickness );
 		   r++;
-		   } 
-		   
-		   
-		 //End
-		 
-	*/	 
+		   }
+
 		 
 		 
 		 
@@ -162,14 +164,11 @@ public class Algorithm {
 				 if(R.getWidth() >= W.GetWidth() && R.getHeight()>=W.GetHeight() && !found)
 				 {
 					 found = true;
-					 g.setColor(Color.blue);
-					 g.fillRect((int)(R.getX()-InnerPanel.kerfThickness), (int)(R.getY()-InnerPanel.kerfThickness+oldY),(int)(W.GetWidth() + ( 2*InnerPanel.kerfThickness)),(int)(W.GetHeight()+(2*InnerPanel.kerfThickness)));
-					 g.setColor(Color.green);
-					 //DrawRect.add(new Rectangle((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight()));
-					 Rectangle Name = new Rectangle((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight());
-					 g.fillRect((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight());
 					
-					 UsedArea += Name.width * Name.height;
+					 Rectangle Name = new Rectangle((int)R.getX(), (int)R.getY() +oldY,(int)W.GetWidth(),(int)W.GetHeight());
+					
+					
+					
 					   
 					 //Display Label
 					 if(Label)
@@ -258,7 +257,7 @@ public class Algorithm {
 	
         for(Wood W : List){
 			if(W.GetWoodtype().equals("Piece")){
-				//System.out.println("Piece found"); `
+
 		        JTextArea label= new JTextArea(W.GetHeight()/10+"");
 		        label.setEditable(false);
 		        InnerPanel.innerPanel.add(label);
@@ -278,7 +277,7 @@ public class Algorithm {
 	        	}
 			}
 			else{
-				//System.out.println("Wood found"); 
+				
 	        	JTextArea label= new JTextArea(W.GetHeight()/10+"");
 	        	label.setEditable(false);
 	        	InnerPanel.innerSheetsPanel.add(label);
@@ -337,4 +336,6 @@ public class Algorithm {
         ty.repaint();
     }
 
+
 }
+
