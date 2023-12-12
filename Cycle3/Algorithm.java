@@ -303,12 +303,12 @@ public class Algorithm {
         	w.SetWidth(w.GetWidth()*scale);
         	x+=w.GetAmount();
         }
-        for(int x = 0 ; x < Pieces.size(); x++)
+        for(int x = 0 ; x < colist.size(); x++)
         {
-        	Wood w = Pieces.get(x);
-        	w.SetHeight(w.GetHeight()*scale);
-        	w.SetWidth(w.GetWidth()*scale);
-        	x+=w.GetAmount();
+        	CoordMaker w = colist.get(x);
+        	w.setYsize((int) (w.getYsize()*scale));
+        	w.setXsize((int)(w.getXsize()*scale));
+        	
         }
         ty.repaint();
     }
@@ -319,14 +319,14 @@ public class Algorithm {
         	Wood w = Boards.get(x);
         	w.SetHeight(w.GetHeight()*scale);
         	w.SetWidth(w.GetWidth()*scale);
-        	x+=w.GetAmount();
+        	x+=w.GetAmount()-1;
         }
-        for(int x = 0 ; x < Pieces.size(); x++)
+        for(int x = 0 ; x < colist.size(); x++)
         {
-        	Wood w = Pieces.get(x);
-        	w.SetHeight(w.GetHeight()*scale);
-        	w.SetWidth(w.GetWidth()*scale);
-        	x+=w.GetAmount();
+        	CoordMaker w = colist.get(x);
+        	w.setYsize((int) (w.getYsize()*scale));
+        	w.setXsize((int) (w.getXsize()*scale));
+        	
         }
         ty.repaint();
     }
